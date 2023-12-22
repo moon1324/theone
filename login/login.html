@@ -5,22 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
+<link rel="stylesheet" href="../common/common.css">
 <link rel="stylesheet" href="./login.css">
-
 <body>
-    <div class="login-container">
+    <header class="header">
+        <!-- 헤더 전체 컨테이너 -->
+        <div class="header-container">
+            <!-- 로고 컨테이너 -->
+            <div class="header-logo-container">
+                <!-- 로고는 로고 겸 메인페이지로 이동하는 버튼이 된다(a태그) -->
+                <section>
+                    <a href="">
+                        <img class="header-logo" src="./img/new_logo.png" alt="">
+                    </a>
+                </section>
+            </div>
+            <!-- 내비게이션 메뉴 컨테이너 -->
+            <div class="header-nav-container">
+                <nav class="header-nav">
+                    <ul class="header-ul">
+                        <li class="header-li" >
+                            <a href="">공동체 소개</a>
+                        </li>
+                        <li class="header-li">
+                            <a href="">주보 안내</a>
+                        </li>
+                        <li class="header-li">
+                            <a href="">로그인</a>
+                        </li>
+                        <!-- 로그인 했을시 로그인대신 떠야할 메뉴들 -->
+                        <!-- <li class="header-li" >
+                            <a href="">건의사항</a>
+                        </li> -->
+                        <!-- <li class="header-li">
+                            <a href="">마이페이지</a>
+                        </li> -->
+                        <!-- <li class="header-li">
+                            <a href="">로그아웃</a>
+                        </li> -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="login-container"> 
         <div class="login-logo-container">
             <img class="login-logo"src="./img/new_logo.png" alt="">
         </div>
         <div class="login-function-container">
             <form action="" class="login-function-form">
-                <div class="login-description-container">
-                    <p for="" class="login-description">ID</p>
-                    <p for="" class="login-description">PW</p>
-                </div>
                 <div class="login-input-container">
-                    <input type="text" class="id-input" placeholder="   ID를 입력해주세요">
-                    <input type="text" class="pw-input" placeholder="   PW를 입력해주세요">
+                    <input type="text" id="id-input" placeholder="ID:">
+                    <input type="text" id="pw-input" placeholder="PW:">
                 </div>
                 <div class="login-button-container">
                     <button class="login-button">
@@ -46,6 +82,29 @@
             <p class="text-align-right">*김형국 목사 (풍성한삶으로의 초대, 하나복 DNA 네트워크)</p>
         </div>
     </div>
+    <footer class="footer">
+        <div class="footer-logo-terms-container">
+            <div class="footer-logo-container">
+                <section>
+                    <a href="">
+                        <img class="footer-logo" src="./img/new_logo.png" alt="">
+                    </a>
+                </section>
+            </div>
+        </div>
+        <div class="footer-contact-terms-container">
+            <div class="footer-contact-container">
+                <p class="footer-contact">더온누리교회 더원공동체   |   예배 공간 : 전라북도 전주시 덕진구 만성동로 84-9지하 다윗의 노래</p>
+                <p class="footer-contact">담임 교역자 : 김지훈   |   Tel : 010-5025-1824   |   E-mail : kjh@gmail.com</p>
+                <!-- 인스타그램, 유튜브 아이콘 찾아서 붙이기 -->
+                <p class="footer-contact copyright">Copyright 2024. 더원공동체 All rights reserved</p>
+            </div>
+            <div class="footer-terms-container">
+                <a href="" class="footer-terms">이용약관</a>
+                <a href="" class="footer-terms">개인정보처리방침</a>
+            </div>
+        </div>
+    </footer> 
 </body>
-
+<script src="./login.js"></script>
 </html>

@@ -1,62 +1,54 @@
+/* login css */
 
+/* 로그인 전체 컨테이너 */
 .login-container{
+    /* 전체 너비 사용 */
     width: 100%;
+    /* 마진 0 오토 */
     margin: 0 auto;
+    margin-top: 40px;
 }
-
+/* 로그인 로고 컨테이너 */
 .login-logo-container{
+    /* 로고 가운데로 오도록 */
     text-align: center;
-    margin-top: 120px;
+    /* /* 헤더 대비 마진탑 */
+    /* margin-top: 120px;  */
 }
+/* 로그인 로고 */
 .login-logo{
-    width: 360px;
-    height: 160px;
+    width: 320px;
+    height: auto;
 }
 
 .login-function-container{
     text-align: center;
+    margin-top: 20px;
 }
 
 .login-function-form{
     display: inline-flex;
 }
 
-.login-description-container{
-    margin-left: 32px;
-}
-
-.login-description{
-    font-size: 20px;
-    margin: 0;
-    padding: 0;
-    margin-top: 20px;
-}
-
 .login-input-container{
-    width: 260px;
+    width: 192px;
+    margin: 8px;
 }
 
 input[type=text]{
     margin: 0;
-    padding: 0;
-    margin-top: 20px;
-    width: 240px;
-    height: 28px;
+    padding: 4px;
+    width: 184px;
+    height: 20px;
     font-size: 16px;
     border: 0;
-    border-radius: 4px;
+    border-radius: 8px;
     outline: none;
     background-color: #D9D9D9;
-
 }
 
-.id-input{
-    margin: 16px;
-}
-
-.pw-input{
-    margin: 16px;
-    margin-top: 0px;
+#pw-input{
+    margin-top: 8px;
 }
 
 .login-button-container{
@@ -65,15 +57,17 @@ input[type=text]{
 }
 
 .login-button{
-    margin: 0;
+    margin: 8px;
     padding: 0;
-    margin-top: 20px;
-    width: 100px;
-    height: 76px;
+    /* margin-top: 16px;
+    margin-left: 8px; */
+    width: 96px;
+    height: 64px;
     border: 0;
-    border-radius: 4px;
+    border-radius: 8px;
     outline: none;
     background-color: #D9D9D9;
+    font-size: 16px;
 }
 
 .login-links-container{
@@ -86,22 +80,6 @@ input[type=text]{
 
 .text-align-right{
     text-align: right;
-}
-
-ul li{
-    list-style: none;
-}
-li{
-    display: inline-block;
-    margin: 0 20px;
-}
-ul{
-    align-items: center;
-}
-
-a{
-    text-decoration: none;
-    color: #000000;
 }
 
 .login-phrase-container{
