@@ -3,45 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Header</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="common.css">
 </head>
 <body>
     <header class="header">
-        <!-- 헤더 전체 컨테이너 -->
         <div class="header-container">
-            <!-- 로고 컨테이너 -->
             <div class="header-logo-container">
-                <!-- 로고는 로고 겸 메인페이지로 이동하는 버튼이 된다(a태그) -->
-                <section class="header-logo">
-                    <a href="">
-                        <img src="./img/cross_logo.png" alt="">
-                    </a>
-                </section>
+                <a href="">
+                    <img class="header-logo" src="./img/new_logo.png" alt="">
+                </a>
             </div>
-            <!-- 내비게이션 메뉴 컨테이너 -->
             <div class="header-nav-container">
                 <nav class="header-nav">
                     <ul class="header-ul">
                         <li class="header-li" >
-                            <a href="">공동체 소개</a>
+                            <a href="" class="menu-item" data-menu="about">공동체 소개</a>
                         </li>
                         <li class="header-li">
-                            <a href="">주보 안내</a>
+                            <a href="" class="menu-item" data-menu="announcement">주보 안내</a>
+                        </li>
+                        <li class="header-li" >
+                            <a href="" class="menu-item" data-menu="suggestion">건의사항</a>
                         </li>
                         <li class="header-li">
-                            <a href="">로그인</a>
+                            <a href="" class="menu-item" data-menu="login">로그인</a>
                         </li>
                         <!-- 로그인 했을시 로그인대신 떠야할 메뉴들 -->
                         <!-- <li class="header-li">
-                            <a href="">마이페이지</a>
-                        </li> -->
-                        <!-- <li class="header-li">
-                            <a href="">로그아웃</a>
+                            <a href="" class="menu-item" data-menu="member">마이페이지</a>
+                        </li>
+                        <li class="header-li">
+                            <a href="" class="menu-item" data-menu="logout">로그아웃</a>
                         </li> -->
                     </ul>
                 </nav>
             </div>
         </div>
     </header>
+    <div class="side-navigation" id="about">
+        <div class="side-navigation-title-container">
+            <h3 class="side-navigation-title">공동체 소개</h3>
+        </div>
+        <ul class="side-navigation-ul">
+            <li class="side-navigation-li">
+                <a href="#">더원공동체는?</a>
+            </li>
+            <li class="side-navigation-li">
+                <a href="#">사역팀 소개</a>
+                <ul class="side-navigation-ul">
+                    <li class="side-navigation-li"><a href="#">목사님</a></li>
+                    <li class="side-navigation-li"><a href="#">찬양팀</a></li>
+                    <li class="side-navigation-li"><a href="#">미디어팀</a></li>
+                    <li class="side-navigation-li"><a href="#">페이버팀</a></li>
+                    <li class="side-navigation-li"><a href="#">회계팀</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="side-navigation" id="suggestion">
+        <div class="side-navigation-title-container">
+            <h3 class="side-navigation-title">건의사항</h3>
+        </div>
+        <ul class="side-navigation-ul">
+            <li class="side-navigation-li">
+                <a href="#">글 목록</a>
+            </li>
+            <li class="side-navigation-li">
+                <a href="#">글 쓰기</a>
+            </li>
+        </ul>
+    </div>
+    <div class="side-navigation" id="member">
+        <div class="side-navigation-title-container">
+            <h3 class="side-navigation-title">마이페이지</h3>
+        </div>
+        <ul class="side-navigation-ul">
+            <li class="side-navigation-li">
+                <a href="#">내 프로필</a>
+            </li>
+            <li class="side-navigation-li">
+                <a href="#">내 정보 수정</a>
+            </li>
+            <li class="side-navigation-li">
+                <a href="#">하위 메뉴 1-3</a>
+            </li>
+        </ul>
+    </div>
+    <script src="header.js"></script>
 </body>
 </html>
