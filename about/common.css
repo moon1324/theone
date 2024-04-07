@@ -146,6 +146,51 @@ a {
 .about-index-text {
     margin: 8px;
 }
+
+/* about-vision */
+.about-vision-container {
+    width: 100%;
+}
+
+.about-vision-title-container * {
+    text-align: center;
+}
+
+.about-vision-title-container h2 {
+    font-size: 40px;
+}
+
+.about-vision-title-container h4 {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.about-vision-card-container {
+    display: flex;
+    justify-content: center;
+}
+
+.about-vision-card {
+    text-align: center;
+    margin: 36px;
+}
+
+.about-vision-card img {
+    border: 1px solid black;
+    width: 240px;
+    height: 240px;
+}
+
+.about-vision-card h5 {
+    font-size: 20px;
+    margin: 12px 0px;
+}
+
+.about-vision-card p {
+    text-align: left;
+    width: 240px;
+}
+
 /* footer */
 .footer {
     background-color: #ebebeb;
