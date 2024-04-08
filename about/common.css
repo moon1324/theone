@@ -191,6 +191,17 @@ a {
     width: 240px;
 }
 
+/* about-location */
+.about-location-container {
+    width: 100%;
+    background-image: url(../common/img/theonnuri_background.jpg);
+    margin: 20px 80px;
+}
+
+.about-location-title-wrapper h2 {
+    font-size: 40px;
+}
+
 /* footer */
 .footer {
     background-color: #ebebeb;

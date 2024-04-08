@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="./common.css" />
         <!-- <link rel="stylesheet" href="../common/common.css" /> -->
         <link rel="stylesheet" href="./about.css" />
+        <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=#&libraries=services"></script>
     </head>
     <body>
         <!-- 헤더 -->
@@ -112,7 +113,7 @@
                 </div>
             </div>
             <!-- 우리의 비전 -->
-            <div class="about-vision-container">
+            <div class="about-vision-container display-none">
                 <div class="about-vision-title-container">
                     <h2>우리의 비전</h2>
                     <h4>
@@ -151,12 +152,14 @@
                 </div>
             </div>
             <!-- 장소와 시간 -->
-            <div class="about-location-container display-none">
+            <div class="about-location-container">
                 <div class="about-location-title-wrapper">
                     <h2>장소와 시간</h2>
                 </div>
                 <div class="about-location-map-wrapper">
-                    <div class="about-location-map-api-container"></div>
+                    <div class="about-location-map-api-container">
+                        <div id="map"></div>
+                    </div>
                     <div class="about-location-map-description-container">
                         <p>
                             전북특별자치도 전주시 덕진구 만성동로 84-9
@@ -209,4 +212,5 @@
             </div>
         </footer>
     </body>
+    <script src="./about.js"></script>
 </html>
