@@ -1,0 +1,146 @@
+/* about */
+.about-container {
+    display: flex;
+}
+
+/* about-index */
+.about-index-container {
+    margin: 60px;
+    width: 100%;
+}
+.about-index-logo-wrapper {
+    display: flex;
+    justify-content: center;
+}
+.about-index-logo-wrapper img {
+    width: 320px;
+    height: 160px;
+}
+
+.about-index-text-wrapper * {
+    text-align: center;
+}
+
+.about-index-title {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.about-index-subtitle {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.about-index-text {
+    margin: 8px;
+}
+
+/* about-vision */
+.about-vision-container {
+    width: 100%;
+}
+
+.about-vision-title-container * {
+    text-align: center;
+}
+
+.about-vision-title-container h2 {
+    font-size: 40px;
+}
+
+.about-vision-title-container h4 {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.about-vision-card-container {
+    display: flex;
+    justify-content: center;
+}
+
+.about-vision-card {
+    text-align: center;
+    margin: 36px;
+}
+
+.about-vision-card img {
+    border: 1px solid black;
+    width: 240px;
+    height: 240px;
+}
+
+.about-vision-card h5 {
+    font-size: 20px;
+    margin: 12px 0px;
+}
+
+.about-vision-card p {
+    text-align: left;
+    width: 240px;
+}
+
+/* about-location */
+.about-location-container {
+    width: 1240px;
+    height: 624px;
+    background: url(../common/img/theonnuri_background.png);
+    background-size: cover;
+    margin: 20px 80px;
+}
+
+.about-location-title-wrapper h2 {
+    font-size: 40px;
+}
+/* map 임시 */
+.about-location-map-wrapper {
+    width: 480px;
+}
+
+.about-location-map-api-container {
+    width: 100%;
+}
+
+#map {
+    width: 480px;
+    height: 240px;
+    background-color: lightgray;
+    border-radius: 24px;
+}
+
+/* about-pastor */
+.about-pastor-container {
+    margin-top: 40px;
+    width: 100%;
+    margin: 20px 80px;
+}
+
+.about-pastor-content-container {
+    display: flex;
+}
+.about-pastor-profile-image-wrapper {
+    width: 320px;
+    height: 480px;
+    /* background-color: lightgray; */
+    border-radius: 16px;
+}
+
+.about-pastor-profile-image-wrapper img {
+    width: 100%;
+    border-radius: 16px;
+}
+
+.about-pastor-text-wrapper {
+    display: flexbox;
+    flex-direction: column;
+    margin-top: auto;
+    margin-left: 80px;
+    width: 440px;
+}
+.about-pastor-text-wrapper h4 {
+    font-weight: 300;
+    font-size: 20px;
+}
+.about-index-text-wrapper h4 strong {
+    font-weight: 500;
+}

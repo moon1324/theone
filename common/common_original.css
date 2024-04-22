@@ -1,12 +1,9 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
-
 /* common */
 body {
     margin: 0;
     padding: 0;
     width: 100%;
     height: 100%;
-    font-family: Pretendard;
 }
 
 ul li {
@@ -18,13 +15,9 @@ a {
     color: #000000;
 }
 
-.display-none {
-    display: none;
-}
-
 /* header */
 .header {
-    background-color: #ffffff;
+    background-color: #ffd5d5;
 }
 
 .header-container {
@@ -35,7 +28,7 @@ a {
     align-items: center;
 }
 
-.header-logo-wrapper {
+.header-logo-container {
     display: flex;
     height: 60px;
     margin: 10px 80px;
@@ -43,7 +36,7 @@ a {
     align-items: center;
 }
 
-.header-logo-wrapper a {
+.header-logo-container a {
     height: 60px;
 }
 
@@ -51,7 +44,7 @@ a {
     height: 60px;
 }
 
-.header-nav-wrapper {
+.header-nav-container {
     display: flex;
     height: 80px;
     margin: 0px 60px;
@@ -75,46 +68,48 @@ a {
     justify-content: center;
 }
 
-/* side-menu */
-.side-menu-container {
-    background-color: #fffae6;
+/* side-navigation */
+.side-navigation {
+    /* display: none; */
+    position: fixed;
+    top: 80px;
+    bottom: 0;
     width: 280px;
-    height: 624px;
+    background-color: #ffd5d5;
+    opacity: 0.5;
+    padding: 0px;
+    left: -280px;
+    transition: left 0.5s;
 }
 
-.side-menu-wrapper {
-    width: 200px;
+.side-navigation-title-container {
     margin: 40px;
+    margin-bottom: 20px;
 }
 
-.side-menu-title-wrapper {
-    margin: 0;
-}
-
-.side-menu a {
+.side-navigation a {
     display: block;
     margin: 0 20px;
     color: black;
 }
 
-.side-menu-ul-wrapper {
-    margin: 20px;
+.side-navigation ul {
+    display: block;
+    list-style-type: none;
+    padding-left: 20px;
 }
 
-.side-menu-ul {
-    padding: 0;
-}
-
-.side-menu-li {
-    margin: 24px 0px;
+.side-navigation ul li a {
+    color: black;
+    padding: 20px;
 }
 
 /* footer */
 .footer {
-    background-color: #ebebeb;
+    background-color: #ffd5d5;
     display: flex;
     width: 100%;
-    height: 120px;
+    height: 160px;
     justify-content: center;
     align-items: center;
     position: relative;
@@ -132,22 +127,7 @@ a {
 .footer-icons-container {
     display: flex;
     width: 100px;
-    height: 32px;
-    /* padding: 14px 0px; */
+    height: 60px;
+    padding: 14px 0px;
     justify-content: space-between;
-    align-items: center;
-}
-
-.footer-icons-instagram {
-    width: 28px;
-    height: 28px;
-}
-
-.footer-icons-instagram img {
-    width: 100%;
-}
-
-.footer-contact-detail {
-    margin: 8px 0px;
-    font-size: 13px;
 }
