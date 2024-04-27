@@ -75,40 +75,6 @@ a {
     justify-content: center;
 }
 
-/* side-menu */
-.side-menu-container {
-    background-color: #fffae6;
-    width: 280px;
-    height: 624px;
-}
-
-.side-menu-wrapper {
-    width: 200px;
-    margin: 40px;
-}
-
-.side-menu-title-wrapper {
-    margin: 0;
-}
-
-.side-menu a {
-    display: block;
-    margin: 0 20px;
-    color: black;
-}
-
-.side-menu-ul-wrapper {
-    margin: 20px;
-}
-
-.side-menu-ul {
-    padding: 0;
-}
-
-.side-menu-li {
-    margin: 24px 0px;
-}
-
 /* footer */
 .footer {
     background-color: #ebebeb;
