@@ -1,33 +1,25 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# Visual Studio Code settings
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Local History for Visual Studio Code
+.history/
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+# Built Visual Studio Code Extensions
+*.vsix
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+# Exclude all 'dist' folders
+client/**/dist/
+server/**/dist/
 
-### VS Code ###
-.vscode/
+# node_modules of 'client' in react folder
+client/node_modules
+# node_modules of 'server' in react folder
+server/node_modules
+
+# .env in server folder
+server/.env
