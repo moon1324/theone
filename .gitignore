@@ -23,6 +23,3 @@ server/node_modules
 
 # .env in server folder
 server/.env
-
-# resources folder
-resources/*
