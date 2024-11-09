@@ -3,7 +3,7 @@ import reset from "styled-reset";
 
 // global style을 화면에 전체 적용시키는 로직
 const GlobalStyle = createGlobalStyle`
-
+    /* 기본설정 초기화 */
     ${reset}
     
     /* 웹 폰트 적용 */
@@ -14,11 +14,12 @@ const GlobalStyle = createGlobalStyle`
         font-style: normal;
     }
 
+    /* 전체적용 */
     * {
         box-sizing: border-box;
         font-weight: 400;
         text-decoration: none;
-        /* color: #142146; */
+        color: #231815;
         margin: 0;
         padding: 0;
         letter-spacing: 1;
