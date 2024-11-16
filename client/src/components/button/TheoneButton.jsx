@@ -5,7 +5,7 @@ import Button from "./style";
 const TheoneButton = ({ children, ...rest }) => {
     return (
         // prop...
-        // variant = {variant} shape = {shape} size = {size} color = {color}
+        // variant = {variant} shape = {shape} size = {size} border = {border} color = {color}
         <Button {...rest}>{children}</Button>
     );
 };
