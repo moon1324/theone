@@ -1,5 +1,7 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import S from "./style";
 
 const Layout = () => {
@@ -24,6 +26,11 @@ const Layout = () => {
                             <div>로그인/회원가입</div>
                         </NavLink>
                     </S.Nav>
+                    <S.MobileNav>
+                        <S.MobileDropdown>
+                            <FontAwesomeIcon icon={faBars} className="icon" />
+                        </S.MobileDropdown>
+                    </S.MobileNav>
                 </S.HeaderContainer>
             </S.Header>
             <S.Main>
@@ -38,7 +45,10 @@ const Layout = () => {
                         <img src={process.env.PUBLIC_URL + "global/images/youtube_social_icon_red.png"}></img>
                     </S.SocialMediaImageWrapper>
                 </S.SocialMediaLinkContainer>
-                <S.ContactWrapper>Copyright ⓒ THEONE COMMUNITY. All rights reserved. | T. 010-5025-1824 | kjh@gmail.com</S.ContactWrapper>
+                <S.ContactWrapper>
+                    <p>Copyright ⓒ THEONE COMMUNITY. All rights reserved.</p>
+                    <p>T. 010-5025-1824 | kjh@gmail.com</p>
+                </S.ContactWrapper>
             </S.Footer>
         </S.Wrapper>
     );
