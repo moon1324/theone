@@ -40,4 +40,24 @@ theme.FONT_LINE = {
     button: "25px",
 };
 
+theme.MOBILE_FONT_SIZE = {
+    h1: "36px",
+    h2: "26px",
+    h3: "20px",
+    h4: "18px",
+    body: "16px",
+    p: "14px",
+    button: "18px",
+};
+
+theme.MOBILE_FONT_LINE = {
+    h1: "43px",
+    h2: "31px",
+    h3: "24px",
+    h4: "22px",
+    body: "19px",
+    p: "20px",
+    button: "22px",
+};
+
 export default theme;

@@ -29,26 +29,58 @@ const GlobalStyle = createGlobalStyle`
 
     h1 {
         font-size: ${theme.FONT_SIZE.h1};
+
+        @media only screen and (max-width: 767px) {
+            font-size: ${theme.MOBILE_FONT_SIZE.h1};
+        }
     }
 
     h2 {
         font-size: ${theme.FONT_SIZE.h2};
-    }
 
+        @media only screen and (max-width: 767px) {
+            font-size: ${theme.MOBILE_FONT_SIZE.h2};
+        }
+    }
+    
     h3 {
         font-size: ${theme.FONT_SIZE.h3};
+
+        @media only screen and (max-width: 767px) {
+            font-size: ${theme.MOBILE_FONT_SIZE.h3};
+        }
     }
 
     h4 {
         font-size: ${theme.FONT_SIZE.h4};
+
+        @media only screen and (max-width: 767px) {
+            font-size: ${theme.MOBILE_FONT_SIZE.h4};
+        }
     }
 
     body {
         font-size: ${theme.FONT_SIZE.body};
+
+        @media only screen and (max-width: 767px) {
+            font-size: ${theme.MOBILE_FONT_SIZE.body};
+        }
+    }
+
+    button {
+        font-size: ${theme.FONT_SIZE.button};
+
+        @media only screen and (max-width: 767px) {
+            font-size: ${theme.MOBILE_FONT_SIZE.button};
+        }
     }
 
     p {
         font-size: ${theme.FONT_SIZE.p};
+
+        @media only screen and (max-width: 767px) {
+            font-size: ${theme.MOBILE_FONT_SIZE.p};
+        }
     }
 
 
