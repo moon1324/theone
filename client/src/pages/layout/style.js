@@ -34,6 +34,7 @@ S.Header = styled.header`
     position: fixed;
     /* 다른요소보다 위에 위치 */
     z-index: 100;
+    background-color: ${theme.PALETTE.background};
 `;
 
 // 헤더안의 로고와 메뉴들을 각 끝에 고정
@@ -53,10 +54,15 @@ S.LogoWrapper = styled.div`
     display: flex;
     width: 9rem;
     height: 4rem;
-    margin-left: 8rem;
+    margin-left: 2rem;
 
     & img {
         height: 100%;
+    }
+
+    /* 데스크탑용 스타일 */
+    @media only screen and (min-width: 1025px) {
+        margin-left: 8rem;
     }
 
     /* 태블릿용 스타일 */
@@ -119,7 +125,14 @@ S.MobileDropdown = styled.div`
 `;
 
 S.Main = styled.main`
-    padding-top: 6rem;
+    width: 100%;
+    /* padding-top: 6rem; */
+    padding-top: 1rem;
+
+    /* 태블릿용 스타일 */
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+        padding-top: 6rem;
+    }
 `;
 
 S.Footer = styled.footer`

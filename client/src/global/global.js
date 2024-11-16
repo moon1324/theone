@@ -25,6 +25,11 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         letter-spacing: 1;
         line-height: 1;
+        white-space: nowrap;
+    }
+
+    html{
+        background-color: ${theme.PALETTE.background};
     }
 
     h1 {

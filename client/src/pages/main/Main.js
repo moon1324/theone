@@ -12,6 +12,9 @@ const Main = () => {
                         </h2>
                         <h2>오늘, 여기에서 함께 세우는 공동체다</h2>
                     </S.MainCatchPhraseWrapper>
+                    <S.MainImageWrapper>
+                        <img src={process.env.PUBLIC_URL + "global/images/P3100238.JPG"} />
+                    </S.MainImageWrapper>
                 </S.MainContainer>
             </S.MainSection>
         </div>
