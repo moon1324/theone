@@ -17,6 +17,18 @@ const Main = () => {
                     </S.MainImageWrapper>
                 </S.MainContainer>
             </S.MainSection>
+            <S.OurPrayerSection>
+                <S.OurPrayerContainer>
+                    <S.OurPrayerTitle>OUR PRAYER</S.OurPrayerTitle>
+                    <S.OurPrayerSubtitle>우리의 기도</S.OurPrayerSubtitle>
+                    <S.OurPrayerContent>아버지, 아버지께서 내 안에 계시고,</S.OurPrayerContent>
+                    <S.OurPrayerContent>내가 아버지 안에 있는 것과 같이,</S.OurPrayerContent>
+                    <S.OurPrayerContent>그들도 하나가 되어서 우리 안에 있게 하여 주십시오.</S.OurPrayerContent>
+                    <S.OurPrayerContent>그래서 아버지께서 나를 보내셨다는 것을,</S.OurPrayerContent>
+                    <S.OurPrayerContent>세상이 믿게 하여 주십시오.</S.OurPrayerContent>
+                    <S.OurPrayerContent>요한복음 17:21</S.OurPrayerContent>
+                </S.OurPrayerContainer>
+            </S.OurPrayerSection>
         </div>
     );
 };

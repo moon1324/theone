@@ -126,8 +126,8 @@ S.MobileDropdown = styled.div`
 
 S.Main = styled.main`
     width: 100%;
-    /* padding-top: 6rem; */
-    padding-top: 1rem;
+    padding-top: 6rem;
+    /* padding-top: 1rem; */
 
     /* 태블릿용 스타일 */
     @media only screen and (min-width: 768px) and (max-width: 1024px) {
