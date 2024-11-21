@@ -18,13 +18,13 @@ const S = {};
 
 S.LoginContainer = styled.div`
     width: 100%;
-    /* height: 100%; */
+    height: 100vh;
     background-color: ${theme.PALETTE.background};
     ${flexCenterColumn}
 `;
 
 S.LoginLogoWrapper = styled.div`
-    margin: 4rem;
+    margin-top: 4rem;
     width: 48rem;
     ${flexCenter}
     & img {
@@ -49,7 +49,7 @@ S.LoginBoxWrapper = styled.div`
 S.LoginDescriptionContainer = styled.div``;
 
 S.LoginDescriptionTitle = styled.h3`
-    margin: 1rem;
+    margin: 2rem;
     font-weight: 500;
 `;
 
@@ -61,6 +61,56 @@ S.LoginButtonsContainer = styled.div`
     ${flexCenter}
 `;
 
-S.LoginButton = styled.div``;
+S.LoginButton = styled.div`
+    width: 300px;
+    height: 45px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 1rem;
+`;
+
+S.HomeButton = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    background-color: ${theme.PALETTE.primary};
+
+    & svg {
+        margin-left: 14px;
+    }
+
+    & span {
+        margin: auto;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    & div {
+        width: 14px;
+    }
+`;
+
+S.KakaoButton = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: ${theme.PALETTE.kakao};
+    & img {
+        margin-left: 14px;
+    }
+
+    & span {
+        margin: auto;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    & div {
+        width: 14px;
+    }
+`;
 
 export default S;

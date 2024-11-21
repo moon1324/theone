@@ -13,6 +13,7 @@ theme.PALETTE = {
         300: "#5F5C56",
     },
     red: "#FF5E4D",
+    kakao: "#FEE500",
     transparent: "transparent",
 };
 
