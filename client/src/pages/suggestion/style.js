@@ -16,4 +16,36 @@ const S = {};
 //     /* 데스크탑용 스타일 */
 // }
 
+S.SuggestionContainer = styled.div`
+    margin: 0rem 8rem;
+`;
+
+S.SuggestionTitle = styled.h2`
+    margin: 1rem;
+    color: ${theme.PALETTE.background};
+`;
+
+S.SuggestionDescription = styled.p`
+    margin: 1rem;
+    color: ${theme.PALETTE.background};
+`;
+
+S.SuggestionBox = styled.div``;
+
+S.SuggestionBoxHeader = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+`;
+
+S.SelectDropdown = styled.div``;
+
+S.SearchBar = styled.div``;
+
+S.WriteButton = styled.div``;
+
+S.SuggestionBoxContent = styled.div``;
+
+S.SuggestionTable = styled.div``;
+
 export default S;
