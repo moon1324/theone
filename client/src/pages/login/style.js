@@ -21,6 +21,12 @@ S.LoginContainer = styled.div`
     height: 100vh;
     background-color: ${theme.PALETTE.background};
     ${flexCenterColumn}
+    text-align: center;
+
+    @media only screen and (max-width: 767px) {
+        justify-content: space-evenly;
+    }
+    text-align: center;
 `;
 
 S.LoginLogoWrapper = styled.div`
@@ -32,8 +38,17 @@ S.LoginLogoWrapper = styled.div`
     }
 
     @media only screen and (min-width: 768px) and (max-width: 1024px) {
-        margin: 6rem;
+        margin-top: 6rem;
         width: 36rem;
+        ${flexCenter}
+        &img {
+            width: 100%;
+        }
+    }
+
+    @media only screen and (max-width: 767px) {
+        /* margin-top: 4rem; */
+        width: 20rem;
         ${flexCenter}
         &img {
             width: 100%;
@@ -42,11 +57,17 @@ S.LoginLogoWrapper = styled.div`
 `;
 
 S.LoginBoxWrapper = styled.div`
-    ${flexCenterColumn}
-    text-align: center;
+    /* ${flexCenterColumn}
+    text-align: center; */
 `;
 
-S.LoginDescriptionContainer = styled.div``;
+S.LoginDescriptionContainer = styled.div`
+    margin: 1rem;
+
+    @media only screen and (max-width: 767px) {
+        margin: 0rem;
+    }
+`;
 
 S.LoginDescriptionTitle = styled.h3`
     margin: 2rem;
@@ -59,6 +80,9 @@ S.LoginDescriptionContent = styled.p`
 
 S.LoginButtonsContainer = styled.div`
     ${flexCenter}
+    @media only screen and (max-width: 767px) {
+        ${flexCenterColumn}
+    }
 `;
 
 S.LoginButton = styled.div`
