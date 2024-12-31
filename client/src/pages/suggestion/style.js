@@ -47,15 +47,18 @@ S.SuggestionDescriptionContainer = styled.div`
 `;
 
 S.SuggestionDescription = styled.p`
-    margin: 1rem;
+    margin: 0.5rem;
     /* 글자가 화면을 넘어갈 때 밑으로 내리기 */
     white-space: break-spaces;
     color: ${theme.PALETTE.text.black};
 `;
 
-S.SuggestionPostBox = styled.div``;
+S.SuggestionPostBox = styled.div`
+    ${flexCenterColumn}
+`;
 
 S.SuggestionPostBoxHeader = styled.div`
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -64,7 +67,7 @@ S.SuggestionPostBoxHeader = styled.div`
 
 S.SelectDropdown = styled.div`
     width: 6rem;
-    height: 2rem;
+    height: 2.5rem;
     border: 1px solid ${theme.PALETTE.text.black};
 
     /* 모바일용 스타일 */
@@ -75,7 +78,7 @@ S.SelectDropdown = styled.div`
 
 S.SearchBar = styled.div`
     width: 40rem;
-    height: 2rem;
+    height: 2.5rem;
     border-bottom: 1px solid ${theme.PALETTE.text.black};
 
     /* 태블릿용 스타일 */
@@ -91,24 +94,33 @@ S.SearchBar = styled.div`
 
 S.WriteButton = styled.div`
     ${flexCenter}
-    width: 4rem;
-    height: 2rem;
+    width: 5rem;
+    height: 2.5rem;
     border: 1px solid ${theme.PALETTE.text.black};
     background-color: ${theme.PALETTE.primary};
+    font-size: ${theme.FONT_SIZE.p};
 `;
 
-S.SuggestionPostTable = styled.div`
+S.SuggestionPostTable = styled.table`
+    width: 100%;
+    height: 24rem;
     border-top: 1px solid ${theme.PALETTE.text.black};
+
+    & tr {
+        border-bottom: 1px solid ${theme.PALETTE.text.black};
+    }
+
+    & th {
+        padding: 0.5rem;
+    }
 `;
 
-S.SuggestionPostTableHeader = styled.div`
-    border-bottom: 1px solid ${theme.PALETTE.text.black};
-`;
-
-S.SuggestionPostTableBody = styled.div``;
-
-S.SuggestionPostTableRow = styled.div`
-    border-bottom: 1px solid ${theme.PALETTE.text.black};
+S.SuggestionPagination = styled.div`
+    ${flexCenter}
+    margin: 1rem;
+    & div {
+        margin: 0.5rem;
+    }
 `;
 
 export default S;

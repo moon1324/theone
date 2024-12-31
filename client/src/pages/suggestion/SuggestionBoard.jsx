@@ -19,7 +19,82 @@ const SuggestionBoard = () => {
                     <S.SearchBar></S.SearchBar>
                     <S.WriteButton>글 쓰기</S.WriteButton>
                 </S.SuggestionPostBoxHeader>
-                <S.SuggestionPostTable></S.SuggestionPostTable>
+                <S.SuggestionPostTable>
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>이름</th>
+                            <th>날짜</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>1</th>
+                            <th>건의사항 첫 게시글</th>
+                            <th>문승현</th>
+                            <th>2024.12.31</th>
+                        </tr>
+                        <tr>
+                            <th>2</th>
+                            <th>여기 뭐하는데냐</th>
+                            <th>이유비</th>
+                            <th>2024.12.31</th>
+                        </tr>
+                        <tr>
+                            <th>3</th>
+                            <th>오 좋은데</th>
+                            <th>오푸른솔</th>
+                            <th>2024.12.31</th>
+                        </tr>
+                        <tr>
+                            <th>4</th>
+                            <th>모바일도 있었으면 좋겠어요~</th>
+                            <th>김예찬</th>
+                            <th>2024.12.31</th>
+                        </tr>
+                        <tr>
+                            <th>5</th>
+                            <th>사진 저장소도 있었으면 좋겠다~</th>
+                            <th>고요한</th>
+                            <th>2024.12.31</th>
+                        </tr>
+                        <tr>
+                            <th>6</th>
+                            <th>오빠파이팅</th>
+                            <th>문지현</th>
+                            <th>2024.12.31</th>
+                        </tr>
+                        <tr>
+                            <th>7</th>
+                            <th>오빠파이팅2</th>
+                            <th>문수현</th>
+                            <th>2024.12.31</th>
+                        </tr>
+                        <tr>
+                            <th>8</th>
+                            <th>신기하당^^</th>
+                            <th>최성은</th>
+                            <th>2024.12.31</th>
+                        </tr>
+                        <tr>
+                            <th>9</th>
+                            <th>큐티나눔좀요</th>
+                            <th>이하늘</th>
+                            <th>2024.12.31</th>
+                        </tr>
+                        <tr>
+                            <th>10</th>
+                            <th>2025년도 화이팅</th>
+                            <th>이시야</th>
+                            <th>2024.12.31</th>
+                        </tr>
+                    </tbody>
+                </S.SuggestionPostTable>
+                <S.SuggestionPagination>
+                    <div>1</div>
+                    <div>2</div>
+                </S.SuggestionPagination>
             </S.SuggestionPostBox>
         </S.SuggestionBoardContainer>
     );
