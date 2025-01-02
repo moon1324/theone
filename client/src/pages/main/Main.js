@@ -7,10 +7,10 @@ const Main = () => {
             <S.MainSection>
                 <S.MainContainer>
                     <S.MainCatchPhraseWrapper>
-                        <h2>
+                        <h3>
                             우리는 <span>하나님나라</span>를
-                        </h2>
-                        <h2>오늘, 여기에서 함께 세우는 공동체다</h2>
+                        </h3>
+                        <h3>오늘, 여기에서 함께 세우는 공동체입니다</h3>
                     </S.MainCatchPhraseWrapper>
                     <S.MainImageWrapper>
                         <img src={process.env.PUBLIC_URL + "global/images/P3100238.JPG"} />

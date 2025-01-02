@@ -27,11 +27,11 @@ S.MainSection = styled.section`
 `;
 
 S.MainContainer = styled.div`
-    margin: 8rem;
+    margin: 2rem 8rem;
 
     /* 태블릿용 스타일 */
     @media only screen and (min-width: 768px) and (max-width: 1024px) {
-        margin: 4rem;
+        margin: 2rem 4rem;
     }
 
     /* @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
@@ -44,7 +44,7 @@ S.MainCatchPhraseWrapper = styled.div`
     flex-direction: column;
     margin-bottom: 2rem;
 
-    & h2 {
+    & h3 {
         font-weight: 600;
         margin: 1rem;
 
@@ -61,9 +61,8 @@ S.MainCatchPhraseWrapper = styled.div`
 `;
 
 S.MainImageWrapper = styled.div`
-    /* width: 24rem; */
     width: 100%;
-    height: 48rem;
+    height: 24rem;
     overflow: hidden;
     ${flexCenter}
     & img {
