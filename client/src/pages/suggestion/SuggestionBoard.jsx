@@ -43,7 +43,7 @@ const SuggestionBoard = () => {
                         </tr>
                         <tr>
                             <th>3</th>
-                            <th>오 좋은데</th>
+                            <th>Happy New Year~~</th>
                             <th>오푸른솔</th>
                             <th>2024.12.31</th>
                         </tr>

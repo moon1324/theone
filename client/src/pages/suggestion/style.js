@@ -37,6 +37,7 @@ S.SuggestionTitle = styled.h2`
     font-weight: 600;
 `;
 
+// SuggestionBoard
 S.SuggestionBoardContainer = styled.div``;
 
 S.SuggestionDescriptionContainer = styled.div`
@@ -121,6 +122,116 @@ S.SuggestionPagination = styled.div`
     & div {
         margin: 0.5rem;
     }
+`;
+
+// SuggestionPost
+
+S.SuggestionPostContainer = styled.div``;
+
+S.SuggestionPost = styled.div`
+    width: 100%;
+    border-top: 1px solid ${theme.PALETTE.text.black};
+`;
+
+S.SuggestionPostHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid ${theme.PALETTE.text.black};
+    & span {
+        margin: 1rem 2rem;
+        font-weight: 500;
+    }
+`;
+
+S.SuggestionPostTitle = styled.h4`
+    margin: 1rem;
+`;
+
+S.SuggestionPostInfoWrapper = styled.div`
+    display: flex;
+`;
+
+S.SuggestionPostWriter = styled.h4`
+    margin: 1rem;
+`;
+
+S.SuggestionPostDate = styled.h4`
+    margin: 1rem;
+    margin-right: 3rem;
+`;
+
+S.SuggestionPostBody = styled.div`
+    /* height: 10rem; */
+    border-bottom: 1px solid ${theme.PALETTE.text.black};
+`;
+
+S.SuggestionPostContent = styled.div`
+    margin: 1rem 3rem;
+    min-height: 12rem;
+`;
+
+S.SuggestionPostFooter = styled.div`
+    width: 100%;
+    border-bottom: 1px solid ${theme.PALETTE.text.black};
+`;
+
+S.SuggestionIconsWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    margin: 1rem 3rem;
+    & span {
+        margin-left: 0.5rem;
+    }
+`;
+
+S.SuggestionIcon = styled.div`
+    width: 2.5rem;
+    margin-right: 1rem;
+`;
+
+S.SuggestionReplyContainer = styled.div`
+    width: 100%;
+    display: flex;
+`;
+
+S.EnterIcon = styled.div`
+    /* width: 2.5rem; */
+    display: flex;
+    margin: 1rem 3rem;
+    & .icon {
+        transform: rotate(90deg);
+    }
+`;
+
+S.SuggestionReply = styled.div`
+    width: 100%;
+`;
+
+S.SuggestionReplyHeader = styled.div`
+    /* width: 100%; */
+    display: flex;
+    border-bottom: 1px solid ${theme.PALETTE.text.black};
+`;
+
+S.SuggestionReplyWriter = styled.div`
+    margin: 1rem;
+`;
+
+S.SuggestionReplyDate = styled.div`
+    margin: 1rem;
+`;
+
+S.SuggestionReplyBody = styled.div`
+    /* width: 100%; */
+    border-bottom: 1px solid ${theme.PALETTE.text.black};
+`;
+
+S.SuggestionReplyContent = styled.div`
+    margin: 1rem 3rem;
+`;
+S.SuggestionReplyFooter = styled.div`
+    /* width: 100%; */
+    border-bottom: 1px solid ${theme.PALETTE.text.black};
 `;
 
 export default S;
