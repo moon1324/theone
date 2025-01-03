@@ -16,9 +16,6 @@ const Layout = () => {
                         <NavLink to={"/"}>
                             <div>HOME</div>
                         </NavLink>
-                        <NavLink to={"/about"}>
-                            <div>공동체 소개</div>
-                        </NavLink>
                         <NavLink to={"/suggestion"}>
                             <div>건의사항</div>
                         </NavLink>
