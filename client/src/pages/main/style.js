@@ -95,11 +95,13 @@ S.OurPrayerContainer = styled.div`
 
 S.OurPrayerTitle = styled.h2`
     margin: 1rem;
+    font-weight: 600;
     color: ${theme.PALETTE.background};
 `;
 
 S.OurPrayerSubtitle = styled.h3`
     margin: 1rem;
+    font-weight: 600;
     color: ${theme.PALETTE.background};
     margin-bottom: 2rem;
 `;
@@ -107,6 +109,77 @@ S.OurPrayerSubtitle = styled.h3`
 S.OurPrayerContent = styled.p`
     color: ${theme.PALETTE.background};
     margin: 1rem;
+`;
+
+// location and time
+S.LocationAndTimeSection = styled.div`
+    height: 100vh;
+    margin: 4rem 8rem;
+
+    /* 태블릿용 스타일 */
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+        /* margin: 0rem 4rem; */
+        margin: 0rem;
+    }
+`;
+
+S.LocationAndTimeContainer = styled.section`
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 8rem;
+
+    /* 태블릿용 스타일 */
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+        margin: 2rem 4rem;
+    }
+
+    /* @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+        margin: 0rem;
+    } */
+`;
+
+S.LocationAndTimeTextWrapper = styled.div``;
+
+S.LocationAndTimeTitle = styled.h2`
+    margin: 1rem;
+    font-weight: 600;
+    color: ${theme.PALETTE.text.black};
+`;
+
+S.LocationAndTimeSubtitle = styled.h3`
+    margin: 1rem;
+    font-weight: 600;
+    color: ${theme.PALETTE.text.black};
+    margin-bottom: 2rem;
+`;
+
+S.LocationAndTimeContentContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+
+S.LocationAndTimeMapWrapper = styled.div`
+    /* 육안으로 봤을떄 안정적이게 1.5rem 줬음 */
+    margin-top: 1.5rem;
+    width: 32rem;
+    height: 24rem;
+    background-color: black;
+`;
+
+S.LocationAndTimeContentWrapper = styled.div``;
+
+S.LocationWrapper = styled.div`
+    margin-bottom: 2rem;
+`;
+
+S.LocationAndTimeContent = styled.p`
+    color: ${theme.PALETTE.text.black};
+    margin: 1rem;
+
+    & span {
+        font-size: ${theme.FONT_SIZE.body};
+        font-weight: 700;
+    }
 `;
 
 export default S;

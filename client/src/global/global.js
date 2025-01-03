@@ -9,9 +9,9 @@ const GlobalStyle = createGlobalStyle`
     
     /* 웹 폰트 적용 */
     @font-face {
-        font-family: 'Pretendard-Regular';
-        src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-        font-weight: 400;
+        font-family: 'Pretendard Variable';
+        src: url('./fonts/PretendardVariable.woff2') format('woff2');
+        font-weight: 100 900;
         font-style: normal;
     }
 

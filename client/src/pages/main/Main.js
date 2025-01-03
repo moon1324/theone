@@ -29,6 +29,38 @@ const Main = () => {
                     <S.OurPrayerContent>요한복음 17:21</S.OurPrayerContent>
                 </S.OurPrayerContainer>
             </S.OurPrayerSection>
+            <S.LocationAndTimeSection>
+                <S.LocationAndTimeContainer>
+                    <S.LocationAndTimeTextWrapper>
+                        <S.LocationAndTimeTitle>Location and Time</S.LocationAndTimeTitle>
+                        <S.LocationAndTimeSubtitle>장소와 시간</S.LocationAndTimeSubtitle>
+                        <S.LocationAndTimeContentContainer>
+                            <S.LocationAndTimeContentWrapper>
+                                <S.LocationWrapper>
+                                    <S.LocationAndTimeContent>
+                                        <span>위치</span>
+                                    </S.LocationAndTimeContent>
+                                    <S.LocationAndTimeContent>전북특별자치도 전주시 덕진구 만성동로 84-9</S.LocationAndTimeContent>
+                                </S.LocationWrapper>
+                                <S.LocationWrapper>
+                                    <S.LocationAndTimeContent>
+                                        <span>주일 예배</span>
+                                    </S.LocationAndTimeContent>
+                                    <S.LocationAndTimeContent>주일 오후 2시 30분</S.LocationAndTimeContent>
+                                    <S.LocationAndTimeContent>더온누리교회 지하 1층 다윗의 노래</S.LocationAndTimeContent>
+                                </S.LocationWrapper>
+                                <S.LocationWrapper>
+                                    <S.LocationAndTimeContent>
+                                        <span>더원공동체 커뮤니티 룸</span>
+                                    </S.LocationAndTimeContent>
+                                    <S.LocationAndTimeContent>더온누리교회 2층 사무엘의 소리 옆</S.LocationAndTimeContent>
+                                </S.LocationWrapper>
+                            </S.LocationAndTimeContentWrapper>
+                        </S.LocationAndTimeContentContainer>
+                    </S.LocationAndTimeTextWrapper>
+                    <S.LocationAndTimeMapWrapper></S.LocationAndTimeMapWrapper>
+                </S.LocationAndTimeContainer>
+            </S.LocationAndTimeSection>
         </div>
     );
 };
