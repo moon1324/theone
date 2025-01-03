@@ -150,7 +150,6 @@ S.LocationAndTimeSubtitle = styled.h3`
     margin: 1rem;
     font-weight: 600;
     color: ${theme.PALETTE.text.black};
-    margin-bottom: 2rem;
 `;
 
 S.LocationAndTimeContentContainer = styled.div`
@@ -160,13 +159,15 @@ S.LocationAndTimeContentContainer = styled.div`
 
 S.LocationAndTimeMapWrapper = styled.div`
     /* 육안으로 봤을떄 안정적이게 1.5rem 줬음 */
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
     width: 32rem;
     height: 24rem;
     background-color: black;
 `;
 
-S.LocationAndTimeContentWrapper = styled.div``;
+S.LocationAndTimeContentWrapper = styled.div`
+    margin-top: 1.5rem;
+`;
 
 S.LocationWrapper = styled.div`
     margin-bottom: 2rem;
