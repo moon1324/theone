@@ -29,11 +29,23 @@ const Main = () => {
                     <S.OurPrayerContent>요한복음 17:21</S.OurPrayerContent>
                 </S.OurPrayerContainer>
             </S.OurPrayerSection>
+            <S.CoreValuesSection>
+                <S.CoreValuesSectionContainer>
+                    <S.MainContentTitle>Core Values</S.MainContentTitle>
+                    <S.MainContentSubtitle>핵심 가치</S.MainContentSubtitle>
+                </S.CoreValuesSectionContainer>
+            </S.CoreValuesSection>
+            <S.OurStrategiesSection>
+                <S.OurStrategiesSectionContainer>
+                    <S.MainContentTitle>Our Strategies</S.MainContentTitle>
+                    <S.MainContentSubtitle>우리의 전략</S.MainContentSubtitle>
+                </S.OurStrategiesSectionContainer>
+            </S.OurStrategiesSection>
             <S.LocationAndTimeSection>
                 <S.LocationAndTimeContainer>
                     <S.LocationAndTimeTextWrapper>
-                        <S.LocationAndTimeTitle>Location and Time</S.LocationAndTimeTitle>
-                        <S.LocationAndTimeSubtitle>장소와 시간</S.LocationAndTimeSubtitle>
+                        <S.MainContentTitle>Location and Time</S.MainContentTitle>
+                        <S.MainContentSubtitle>장소와 시간</S.MainContentSubtitle>
                         <S.LocationAndTimeContentContainer>
                             <S.LocationAndTimeContentWrapper>
                                 <S.LocationWrapper>

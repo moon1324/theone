@@ -111,9 +111,71 @@ S.OurPrayerContent = styled.p`
     margin: 1rem;
 `;
 
-// location and time
-S.LocationAndTimeSection = styled.div`
+// core values
+S.CoreValuesSection = styled.section`
+    margin: 4rem 8rem;
     height: 100vh;
+
+    /* 태블릿용 스타일 */
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+        /* margin: 0rem 4rem; */
+        margin: 0rem;
+    }
+`;
+
+S.CoreValuesSectionContainer = styled.div`
+    margin: 2rem 8rem;
+
+    /* 태블릿용 스타일 */
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+        margin: 2rem 4rem;
+    }
+
+    /* @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+        margin: 0rem;
+    } */
+`;
+
+S.MainContentTitle = styled.h2`
+    margin: 1rem;
+    font-weight: 600;
+    color: ${theme.PALETTE.text.black};
+`;
+
+S.MainContentSubtitle = styled.h3`
+    margin: 1rem;
+    font-weight: 600;
+    color: ${theme.PALETTE.text.black};
+`;
+
+// our strategies
+S.OurStrategiesSection = styled.section`
+    margin: 4rem 8rem;
+    height: 100vh;
+
+    /* 태블릿용 스타일 */
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+        /* margin: 0rem 4rem; */
+        margin: 0rem;
+    }
+`;
+
+S.OurStrategiesSectionContainer = styled.div`
+    margin: 2rem 8rem;
+
+    /* 태블릿용 스타일 */
+    @media only screen and (min-width: 768px) and (max-width: 1024px) {
+        margin: 2rem 4rem;
+    }
+
+    /* @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    margin: 0rem;
+} */
+`;
+
+// location and time
+S.LocationAndTimeSection = styled.section`
+    /* height: 100vh; */
     margin: 4rem 8rem;
 
     /* 태블릿용 스타일 */
@@ -123,7 +185,7 @@ S.LocationAndTimeSection = styled.div`
     }
 `;
 
-S.LocationAndTimeContainer = styled.section`
+S.LocationAndTimeContainer = styled.div`
     display: flex;
     justify-content: space-between;
     margin: 2rem 8rem;
@@ -139,18 +201,6 @@ S.LocationAndTimeContainer = styled.section`
 `;
 
 S.LocationAndTimeTextWrapper = styled.div``;
-
-S.LocationAndTimeTitle = styled.h2`
-    margin: 1rem;
-    font-weight: 600;
-    color: ${theme.PALETTE.text.black};
-`;
-
-S.LocationAndTimeSubtitle = styled.h3`
-    margin: 1rem;
-    font-weight: 600;
-    color: ${theme.PALETTE.text.black};
-`;
 
 S.LocationAndTimeContentContainer = styled.div`
     display: flex;
