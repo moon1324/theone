@@ -79,7 +79,7 @@ S.LoginDescriptionContent = styled.p`
 `;
 
 S.LoginButtonsContainer = styled.div`
-    ${flexCenter}
+    ${flexCenterColumn}
     @media only screen and (max-width: 767px) {
         ${flexCenterColumn}
     }
@@ -90,30 +90,7 @@ S.LoginButton = styled.div`
     height: 45px;
     border-radius: 12px;
     overflow: hidden;
-    margin: 1rem;
-`;
-
-S.HomeButton = styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    /* justify-content: center; */
-    align-items: center;
-    background-color: ${theme.PALETTE.primary};
-
-    & svg {
-        margin-left: 14px;
-    }
-
-    & span {
-        margin: auto;
-        font-size: 14px;
-        font-weight: 500;
-    }
-
-    & div {
-        width: 14px;
-    }
+    cursor: pointer;
 `;
 
 S.KakaoButton = styled.div`
@@ -135,6 +112,14 @@ S.KakaoButton = styled.div`
     & div {
         width: 14px;
     }
+`;
+
+S.HomeButton = styled.div`
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    font-size: 14px;
+    cursor: pointer;
 `;
 
 export default S;

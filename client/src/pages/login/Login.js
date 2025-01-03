@@ -16,20 +16,13 @@ const Login = () => {
             </S.LoginDescriptionContainer>
             <S.LoginButtonsContainer>
                 <S.LoginButton>
-                    <S.HomeButton>
-                        <FontAwesomeIcon icon={faHouse} className="icon" />
-                        <span>HOME으로 이동</span>
-                        <div />
-                    </S.HomeButton>
-                </S.LoginButton>
-                또는
-                <S.LoginButton>
                     <S.KakaoButton>
                         <img src={process.env.PUBLIC_URL + "global/images/talk.svg"} />
                         <span>카카오 로그인</span>
                         <div />
                     </S.KakaoButton>
                 </S.LoginButton>
+                <S.HomeButton>홈으로 이동</S.HomeButton>
             </S.LoginButtonsContainer>
         </S.LoginContainer>
     );
