@@ -13,7 +13,7 @@ const Main = () => {
                         <h3>오늘, 여기에서 함께 세우는 공동체입니다</h3>
                     </S.MainCatchPhraseWrapper>
                     <S.MainImageWrapper>
-                        <img src={process.env.PUBLIC_URL + "global/images/P3100238.JPG"} />
+                        <img src={process.env.PUBLIC_URL + "global/images/main_image.JPG"} />
                     </S.MainImageWrapper>
                 </S.MainContainer>
             </S.MainSection>
@@ -33,6 +33,9 @@ const Main = () => {
                 <S.CoreValuesSectionContainer>
                     <S.MainContentTitle>Core Values</S.MainContentTitle>
                     <S.MainContentSubtitle>핵심 가치</S.MainContentSubtitle>
+                    <S.CoreValuesMainImageWrapper>
+                        <img src={process.env.PUBLIC_URL + "global/images/core_values.png"} />
+                    </S.CoreValuesMainImageWrapper>
                 </S.CoreValuesSectionContainer>
             </S.CoreValuesSection>
             <S.OurStrategiesSection>

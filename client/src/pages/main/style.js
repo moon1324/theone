@@ -78,7 +78,7 @@ S.OurPrayerSection = styled.section`
     justify-content: end;
     width: 100%;
     height: 100vh;
-    background-image: url(${process.env.PUBLIC_URL}/global/images/OurPrayer.png);
+    background-image: url(${process.env.PUBLIC_URL}/global/images/our_prayer.png);
     background-repeat: no-repeat;
     background-size: cover;
 `;
@@ -146,6 +146,18 @@ S.MainContentSubtitle = styled.h3`
     margin: 1rem;
     font-weight: 600;
     color: ${theme.PALETTE.text.black};
+`;
+
+S.CoreValuesMainImageWrapper = styled.div`
+    width: 100%;
+    height: 24rem;
+    overflow: hidden;
+    ${flexCenter}
+    & img {
+        width: 100%;
+        /* height: 100%; */
+        object-fit: cover;
+    }
 `;
 
 // our strategies

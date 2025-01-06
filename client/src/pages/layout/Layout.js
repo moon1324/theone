@@ -36,10 +36,10 @@ const Layout = () => {
             <S.Footer>
                 <S.SocialMediaLinkContainer>
                     <S.SocialMediaImageWrapper>
-                        <img src={process.env.PUBLIC_URL + "global/images/Instagram_Glyph_Gradient.png"}></img>
+                        <img src={process.env.PUBLIC_URL + "global/images/instagram.png"}></img>
                     </S.SocialMediaImageWrapper>
                     <S.SocialMediaImageWrapper>
-                        <img src={process.env.PUBLIC_URL + "global/images/youtube_social_icon_red.png"}></img>
+                        <img src={process.env.PUBLIC_URL + "global/images/youtube.png"}></img>
                     </S.SocialMediaImageWrapper>
                 </S.SocialMediaLinkContainer>
                 <S.ContactWrapper>
