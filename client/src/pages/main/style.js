@@ -197,11 +197,6 @@ S.CoreValuesItemScriptsWrapper = styled.div`
     margin: 2rem 0rem;
 `;
 
-S.CoreValuesItemScriptsWrapperTextAlignRight = styled.div`
-    margin: 2rem 0rem;
-    text-align: right;
-`;
-
 // our strategies
 S.OurStrategiesSection = styled.section`
     margin: 4rem 8rem;
