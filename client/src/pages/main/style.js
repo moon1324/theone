@@ -298,7 +298,11 @@ S.LocationAndTimeMapWrapper = styled.div`
     margin-top: 1.25rem;
     width: 32rem;
     height: 24rem;
-    background-color: black;
+
+    #map {
+        width: 100%;
+        height: 100%;
+    }
 `;
 
 S.LocationAndTimeContentWrapper = styled.div`

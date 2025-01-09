@@ -1,7 +1,64 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import S from "./style";
 
 const Main = () => {
+    const mapRef = useRef(null);
+    // 더온누리교회 위도 경도
+    const lat = 35.8430691;
+    const lng = 127.0805343;
+
+    useEffect(() => {
+        const { naver } = window;
+        if (mapRef.current && naver) {
+            const location = new naver.maps.LatLng(lat, lng);
+            const map = new naver.maps.Map(mapRef.current, {
+                center: location,
+                zoom: 16, // 지도 확대 정도
+            });
+            const marker = new naver.maps.Marker({
+                position: location,
+                map,
+                title: "더온누리교회",
+                clickable: true,
+            });
+
+            const contentString = [
+                '<div class="iw_inner" style="padding:1rem">',
+                '   <p style="font-weight: 600">더온누리교회</p>',
+                "   <br>",
+                '   <p style="font-weight: 600">전북 전주시 덕진구 만성동로 84-9<br>',
+                "   <br>",
+                '   <div style="display:flex; justify-content:center;">',
+                '       <a href=https://map.naver.com/p/directions/-/14146547.2475576,4279057.3992888,%EB%8D%94%EC%98%A8%EB%88%84%EB%A6%AC%EA%B5%90%ED%9A%8C,1054782529,PLACE_POI/-/transit?c=15.00,0,0,0,dh" target="_blank" style="font-weight: 600; font-size: 16px; text-decoration: underline;">교회가는길 찾기</a>',
+                "   </div>",
+                "   </p>",
+                "</div>",
+            ].join("");
+
+            const infoWindow = new naver.maps.InfoWindow({
+                content: contentString,
+
+                maxWidth: 400,
+                backgroundColor: "#eee",
+                borderColor: "#000000",
+                borderWidth: 1,
+                anchorSize: new naver.maps.Size(30, 30),
+                anchorSkew: true,
+                anchorColor: "#eee",
+
+                // pixelOffset: new naver.maps.Point(20, -20),
+            });
+
+            naver.maps.Event.addListener(marker, "click", (e) => {
+                if (infoWindow.getMap()) {
+                    infoWindow.close();
+                } else {
+                    infoWindow.open(map, marker);
+                }
+            });
+        }
+    }, []);
+
     return (
         <div>
             <S.MainSection>
@@ -154,10 +211,6 @@ const Main = () => {
                                 <S.LocationWrapper>
                                     <S.MainContentH4>위치</S.MainContentH4>
                                     <S.MainContentP>전북특별자치도 전주시 덕진구 만성동로 84-9</S.MainContentP>
-                                    {/* <S.LocationAndTimeContent>
-                                        <span>위치</span>
-                                    </S.LocationAndTimeContent>
-                                    <S.LocationAndTimeContent>전북특별자치도 전주시 덕진구 만성동로 84-9</S.LocationAndTimeContent> */}
                                 </S.LocationWrapper>
                                 <S.LocationWrapper>
                                     <S.MainContentH4>주일 예배</S.MainContentH4>
@@ -171,7 +224,9 @@ const Main = () => {
                             </S.LocationAndTimeContentWrapper>
                         </S.LocationAndTimeContentContainer>
                     </S.LocationAndTimeTextWrapper>
-                    <S.LocationAndTimeMapWrapper></S.LocationAndTimeMapWrapper>
+                    <S.LocationAndTimeMapWrapper>
+                        <div id="map" ref={mapRef}></div>
+                    </S.LocationAndTimeMapWrapper>
                 </S.LocationAndTimeContainer>
             </S.LocationAndTimeSection>
         </div>

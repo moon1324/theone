@@ -22,4 +22,5 @@ client/node_modules
 server/node_modules
 
 # .env in server folder
+client/.env
 server/.env
