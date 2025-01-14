@@ -1,13 +1,26 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import S from "./style";
 
 const Login = () => {
+    const REACT_APP_KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
+    const KAKAO_REDIRECT_URI = `http://localhost:3000/oauth/kakao`;
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
+
+    useEffect(() => {
+        console.log(REACT_APP_KAKAO_REST_API_KEY);
+    }, []);
+
+    const handleKakaoLogin = () => {
+        window.location.href = kakaoURL; //kakaoURL로 이동
+    };
+
     return (
         <S.LoginContainer>
             <S.LoginLogoWrapper>
-                <img src={process.env.PUBLIC_URL + "global/images/new_logo.png"} alt="logo" />
+                <NavLink to={"/"}>
+                    <img src={process.env.PUBLIC_URL + "global/images/new_logo.png"} alt="logo" />
+                </NavLink>
             </S.LoginLogoWrapper>
             <S.LoginDescriptionContainer>
                 <S.LoginDescriptionTitle>LOGIN / JOIN</S.LoginDescriptionTitle>
@@ -16,13 +29,16 @@ const Login = () => {
             </S.LoginDescriptionContainer>
             <S.LoginButtonsContainer>
                 <S.LoginButton>
-                    <S.KakaoButton>
-                        <img src={process.env.PUBLIC_URL + "global/images/talk.svg"} />
+                    {/* 카카오 버튼을 눌렀을 때 회원가입 팝업, 완료된 후 로그인 상태로 home으로 이동 */}
+                    <S.KakaoButton className="KakaoButton" onClick={handleKakaoLogin}>
+                        <img src={process.env.PUBLIC_URL + "global/images/talk.svg"} alt="kakao-talk-icon" />
                         <span>카카오 로그인</span>
                         <div />
                     </S.KakaoButton>
                 </S.LoginButton>
-                <S.HomeButton>홈으로 이동</S.HomeButton>
+                <S.HomeButton>
+                    <NavLink to={"/"}>홈으로 이동</NavLink>
+                </S.HomeButton>
             </S.LoginButtonsContainer>
         </S.LoginContainer>
     );

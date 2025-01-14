@@ -4,6 +4,7 @@ import Main from "../pages/main/Main";
 import Suggestion from "../pages/suggestion/Suggestion";
 import PageNotFound from "../pages/error/PageNotFound";
 import Login from "../pages/login/Login";
+import KakaoRedirect from "../pages/login/KakaoRedirect";
 
 const router = createBrowserRouter([
     {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />,
+    },
+    {
+        path: "/oauth/kakao",
+        element: <KakaoRedirect />,
     },
     {
         path: "*",
