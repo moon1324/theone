@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import S from "./style";
 
@@ -7,12 +7,13 @@ const Login = () => {
     const KAKAO_REDIRECT_URI = `http://localhost:3000/oauth/kakao`;
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
-    useEffect(() => {
-        console.log(REACT_APP_KAKAO_REST_API_KEY);
-    }, []);
+    // useEffect(() => {
+    //     console.log(REACT_APP_KAKAO_REST_API_KEY);
+    // }, []);
 
     const handleKakaoLogin = () => {
-        window.location.href = kakaoURL; //kakaoURL로 이동
+        //kakaoURL로 이동
+        window.location.href = kakaoURL;
     };
 
     return (
