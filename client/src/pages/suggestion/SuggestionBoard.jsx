@@ -14,18 +14,21 @@ const SuggestionBoard = () => {
 
     const getSuggestion = async () => {
         try {
-            const response = await fetch(`http://14.5.86.192:8090/api/suggestion`, {
+            const response = await fetch(`http://localhost:8090/api/suggestion`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
                 },
+                credentials: "include"
             });
             if (!response.ok) {
-                throw new Error("Failed to get top ranking schedules");
+                throw new Error("Failed to get Suggestion");
             }
 
             const responseJson = await response.json();
             const suggestionList = responseJson.data;
+
+            console.log("suggestionList : " + JSON.stringify(suggestionList));
 
             setSuggestions(suggestionList);
             setLoading(false);
@@ -35,8 +38,8 @@ const SuggestionBoard = () => {
         }
     };
 
-    const handleDetailButtonClick = (commentId) => {
-        navigate(`/schedules/${commentId}`);
+    const handleDetailButtonClick = (suggestionId) => {
+        navigate(`/suggestion/${suggestionId}`);
     };
 
     return (
@@ -68,10 +71,11 @@ const SuggestionBoard = () => {
                     </thead>
                     <tbody>
                     {suggestions.map((suggestion, index) => (
-                        <tr key={suggestion.suggestionId}>
+                        <tr key={suggestion.suggestionId}
+                            onClick={() => handleDetailButtonClick(suggestion.suggestionId)}>
                             <td>{index + 1}</td>
                             <td>{suggestion.title}</td>
-                            <td>{suggestion.userId}</td>
+                            <td>{suggestion.userName}</td>
                             <td>{suggestion.createdAt}</td>
                             <td>{suggestion.hits}</td>
                         </tr>

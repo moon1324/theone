@@ -4,6 +4,7 @@ import Main from "../pages/main/Main";
 import Suggestion from "../pages/suggestion/Suggestion";
 import PageNotFound from "../pages/error/PageNotFound";
 import Login from "../pages/login/Login";
+import SuggestionPost from "../pages/suggestion/SuggestionPost";
 
 const router = createBrowserRouter([
     {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
             {
                 path: "/suggestion",
                 element: <Suggestion />,
+            },
+            {
+                path: "/suggestion/:suggestionId",
+                element: <SuggestionPost />,
             },
         ],
     },
