@@ -42,6 +42,10 @@ const SuggestionBoard = () => {
         navigate(`/suggestion/${suggestionId}`);
     };
 
+    const handleWriteButtonClick = () => {
+        navigate(`/suggestion/write`);
+    };
+
     return (
         <S.SuggestionBoardContainer>
             <S.SuggestionDescriptionContainer>
@@ -57,7 +61,7 @@ const SuggestionBoard = () => {
                 <S.SuggestionPostBoxHeader>
                     <S.SelectDropdown></S.SelectDropdown>
                     <S.SearchBar></S.SearchBar>
-                    <S.WriteButton>글 쓰기</S.WriteButton>
+                    <S.WriteButton onClick={() => handleWriteButtonClick()}>글 쓰기</S.WriteButton>
                 </S.SuggestionPostBoxHeader>
                 <S.SuggestionPostTable>
                     <thead>

@@ -5,6 +5,7 @@ import Suggestion from "../pages/suggestion/Suggestion";
 import PageNotFound from "../pages/error/PageNotFound";
 import Login from "../pages/login/Login";
 import SuggestionPost from "../pages/suggestion/SuggestionPost";
+import SuggestionWrite from "../pages/suggestion/SuggestionWrite";
 
 const router = createBrowserRouter([
     {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
             {
                 path: "/suggestion/:suggestionId",
                 element: <SuggestionPost />,
+            },
+            {
+                path: "/suggestion/write",
+                element: <SuggestionWrite />,
             },
         ],
     },
