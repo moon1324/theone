@@ -13,7 +13,7 @@ const connect = () => {
     }
     console.log(connect_url);
     mongoose
-        .connect(connect_url, { dbName: "oneul" })
+        .connect(connect_url, { dbName: "theone" })
         .then(() => {
             console.log("Connected to MongoDB");
         })

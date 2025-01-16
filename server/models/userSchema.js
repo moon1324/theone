@@ -2,11 +2,11 @@ import { Schema, model } from "mongoose";
 import { getCurrentTime } from "../utils/utils.js";
 
 const userSchema = new Schema({
-    id: { type: Number, required: true, unique: true },
+    id: { type: Number },
     user_role: { type: Number },
     user_status: { type: Number },
     created_at: { type: Date, default: getCurrentTime },
-    kakao_id: { type: Number },
+    kakao_id: { type: Number, required: true, unique: true },
     modified_at: { type: Date, default: getCurrentTime },
     address: { type: String },
     baptism_status: { type: String },
