@@ -7,8 +7,8 @@ const Suggestion = () => {
     return (
         <S.SuggestionContainer>
             <S.SuggestionTitle>건의사항</S.SuggestionTitle>
-            {/* <SuggestionBoard /> */}
-            <SuggestionPost />
+            <SuggestionBoard />
+            {/*<SuggestionPost />*/}
         </S.SuggestionContainer>
     );
 };

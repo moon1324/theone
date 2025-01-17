@@ -1,7 +1,86 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import S from "./style";
+import { useNavigate } from "react-router-dom";
+import Dropdown from "../../components/dropdown/Dropdown";
+import Input from "../../components/input/style";
+import useInput from "../../hooks/useInput";
 
 const SuggestionBoard = () => {
+    const [suggestions, setSuggestions] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    // useInput hook 사용
+    const [searchValue, setSearchValue, handleSearchChange] = useInput("");
+    const searchRef = useRef(null);
+
+    // dropdown 리스트 목록
+    const dropdownLi = { data: ["제목", "내용", "제목+내용", "작성자"] };
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        getSuggestion();
+    }, []);
+
+    const getSuggestion = async () => {
+        try {
+            const response = await fetch(`http://localhost:8090/api/suggestion`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            });
+            if (!response.ok) {
+                throw new Error("Failed to get Suggestion");
+            }
+
+            const responseJson = await response.json();
+            const suggestionList = responseJson.data;
+
+            console.log("suggestionList : " + JSON.stringify(suggestionList));
+
+            setSuggestions(suggestionList);
+            setLoading(false);
+        } catch (error) {
+            console.error(error);
+            setLoading(false);
+        }
+    };
+
+    const handleDetailButtonClick = (suggestionId) => {
+        navigate(`/suggestion/${suggestionId}`);
+    };
+
+    const handleWriteButtonClick = () => {
+        navigate(`/suggestion/write`);
+    };
+
+    // search
+
+    const handleSearchSubmit = async () => {
+        // navigate(`/search?value=${searchValue}`);
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (searchRef.current && !searchRef.current.contains(e.target)) {
+                setSearchValue("");
+            }
+        };
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [setSearchValue]);
+
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter") {
+            handleSearchSubmit();
+        }
+    };
+
     return (
         <S.SuggestionBoardContainer>
             <S.SuggestionDescriptionContainer>
@@ -15,9 +94,17 @@ const SuggestionBoard = () => {
             </S.SuggestionDescriptionContainer>
             <S.SuggestionPostBox>
                 <S.SuggestionPostBoxHeader>
-                    <S.SelectDropdown></S.SelectDropdown>
-                    <S.SearchBar></S.SearchBar>
-                    <S.WriteButton>글 쓰기</S.WriteButton>
+                    {/* <S.SelectDropdown></S.SelectDropdown> */}
+                    <Dropdown props={dropdownLi}></Dropdown>
+                    <Input
+                        // variant={"default"}
+                        // size={"default"}
+                        // border={"default"}
+                        value={searchValue}
+                        onChange={handleSearchChange}
+                        onKeyPress={handleKeyPress}
+                    />
+                    <S.WriteButton onClick={() => handleWriteButtonClick()}>글 쓰기</S.WriteButton>
                 </S.SuggestionPostBoxHeader>
                 <S.SuggestionPostTable>
                     <thead>
@@ -26,69 +113,19 @@ const SuggestionBoard = () => {
                             <th>제목</th>
                             <th>이름</th>
                             <th>날짜</th>
+                            <th>조회수</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>1</th>
-                            <th>건의사항 첫 게시글</th>
-                            <th>문승현</th>
-                            <th>2024.12.31</th>
-                        </tr>
-                        <tr>
-                            <th>2</th>
-                            <th>여기 뭐하는데냐</th>
-                            <th>이유비</th>
-                            <th>2024.12.31</th>
-                        </tr>
-                        <tr>
-                            <th>3</th>
-                            <th>Happy New Year~~</th>
-                            <th>오푸른솔</th>
-                            <th>2024.12.31</th>
-                        </tr>
-                        <tr>
-                            <th>4</th>
-                            <th>모바일도 있었으면 좋겠어요~</th>
-                            <th>김예찬</th>
-                            <th>2024.12.31</th>
-                        </tr>
-                        <tr>
-                            <th>5</th>
-                            <th>사진 저장소도 있었으면 좋겠다~</th>
-                            <th>고요한</th>
-                            <th>2024.12.31</th>
-                        </tr>
-                        <tr>
-                            <th>6</th>
-                            <th>오빠파이팅</th>
-                            <th>문지현</th>
-                            <th>2024.12.31</th>
-                        </tr>
-                        <tr>
-                            <th>7</th>
-                            <th>오빠파이팅2</th>
-                            <th>문수현</th>
-                            <th>2024.12.31</th>
-                        </tr>
-                        <tr>
-                            <th>8</th>
-                            <th>신기하당^^</th>
-                            <th>최성은</th>
-                            <th>2024.12.31</th>
-                        </tr>
-                        <tr>
-                            <th>9</th>
-                            <th>큐티나눔좀요</th>
-                            <th>이하늘</th>
-                            <th>2024.12.31</th>
-                        </tr>
-                        <tr>
-                            <th>10</th>
-                            <th>2025년도 화이팅</th>
-                            <th>이시야</th>
-                            <th>2024.12.31</th>
-                        </tr>
+                        {suggestions.map((suggestion, index) => (
+                            <tr key={suggestion.suggestionId} onClick={() => handleDetailButtonClick(suggestion.suggestionId)}>
+                                <td>{index + 1}</td>
+                                <td>{suggestion.title}</td>
+                                <td>{suggestion.userName}</td>
+                                <td>{suggestion.createdAt}</td>
+                                <td>{suggestion.hits}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </S.SuggestionPostTable>
                 <S.SuggestionPagination>
