@@ -1,11 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import S from "./style";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Dropdown from "../../components/dropdown/Dropdown";
+import Input from "../../components/input/style";
+import useInput from "../../hooks/useInput";
 
 const SuggestionBoard = () => {
     const [suggestions, setSuggestions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // useInput hook 사용
+    const [searchValue, setSearchValue, handleSearchChange] = useInput("");
+    const searchRef = useRef(null);
+
+    // dropdown 리스트 목록
+    const dropdownLi = { data: ["제목", "내용", "제목+내용", "작성자"] };
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -17,9 +28,9 @@ const SuggestionBoard = () => {
             const response = await fetch(`http://localhost:8090/api/suggestion`, {
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
-                credentials: "include"
+                credentials: "include",
             });
             if (!response.ok) {
                 throw new Error("Failed to get Suggestion");
@@ -46,6 +57,30 @@ const SuggestionBoard = () => {
         navigate(`/suggestion/write`);
     };
 
+    // search
+
+    const handleSearchSubmit = async () => {
+        // navigate(`/search?value=${searchValue}`);
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (searchRef.current && !searchRef.current.contains(e.target)) {
+                setSearchValue("");
+            }
+        };
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [setSearchValue]);
+
+    const handleKeyPress = (e) => {
+        if (e.key === "Enter") {
+            handleSearchSubmit();
+        }
+    };
+
     return (
         <S.SuggestionBoardContainer>
             <S.SuggestionDescriptionContainer>
@@ -59,8 +94,16 @@ const SuggestionBoard = () => {
             </S.SuggestionDescriptionContainer>
             <S.SuggestionPostBox>
                 <S.SuggestionPostBoxHeader>
-                    <S.SelectDropdown></S.SelectDropdown>
-                    <S.SearchBar></S.SearchBar>
+                    {/* <S.SelectDropdown></S.SelectDropdown> */}
+                    <Dropdown props={dropdownLi}></Dropdown>
+                    <Input
+                        // variant={"default"}
+                        // size={"default"}
+                        // border={"default"}
+                        value={searchValue}
+                        onChange={handleSearchChange}
+                        onKeyPress={handleKeyPress}
+                    />
                     <S.WriteButton onClick={() => handleWriteButtonClick()}>글 쓰기</S.WriteButton>
                 </S.SuggestionPostBoxHeader>
                 <S.SuggestionPostTable>
@@ -74,16 +117,15 @@ const SuggestionBoard = () => {
                         </tr>
                     </thead>
                     <tbody>
-                    {suggestions.map((suggestion, index) => (
-                        <tr key={suggestion.suggestionId}
-                            onClick={() => handleDetailButtonClick(suggestion.suggestionId)}>
-                            <td>{index + 1}</td>
-                            <td>{suggestion.title}</td>
-                            <td>{suggestion.userName}</td>
-                            <td>{suggestion.createdAt}</td>
-                            <td>{suggestion.hits}</td>
-                        </tr>
-                    ))}
+                        {suggestions.map((suggestion, index) => (
+                            <tr key={suggestion.suggestionId} onClick={() => handleDetailButtonClick(suggestion.suggestionId)}>
+                                <td>{index + 1}</td>
+                                <td>{suggestion.title}</td>
+                                <td>{suggestion.userName}</td>
+                                <td>{suggestion.createdAt}</td>
+                                <td>{suggestion.hits}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </S.SuggestionPostTable>
                 <S.SuggestionPagination>

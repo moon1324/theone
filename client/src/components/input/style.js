@@ -4,21 +4,30 @@ const variantCSS = {
     default: css`
         background-color: ${({ theme }) => theme.PALETTE.transparent};
     `,
-    white: css`
-        background-color: ${({ theme }) => theme.PALETTE.white};
-    `,
 };
 
 const sizeCSS = {
     default: css`
-        width: 100%;
-        height: 40px;
+        width: 40rem;
+        height: 2.5rem;
+    `,
+
+    tablet: css`
+        width: 20rem;
+        height: 2.5rem;
+    `,
+};
+
+const borderCSS = {
+    default: css`
+        border: 1px solid ${({ theme }) => theme.PALETTE.text.black};
     `,
 };
 
 const Input = styled.input`
     ${({ variant }) => variantCSS[variant]}
     ${({ size }) => sizeCSS[size]}
+    ${({ border }) => borderCSS[border]}
     padding: 0 1rem;
     outline: none;
     height: 2.5rem;
