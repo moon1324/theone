@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser, setUserStatus } from "../../modules/login";
 
 import S from "./style";
@@ -15,27 +15,34 @@ const KakaoRedirect = () => {
     const fetchLogin = useCallback(
         async (code) => {
             try {
-                const response = await (
-                    await fetch(`http://14.5.86.192:8090/api/user/login/oauth2/code/kakao?code=${code}`, {
-                        method: "GET",
-                        // express
-                        // await fetch(`http://localhost:8000/user/login?code=${code}`, {
-                        //     method: "POST",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                        },
-                        credentials: "include",
-                    })
-                ).json();
+                const response = await await fetch(`http://14.5.86.192:8090/api/user/login/oauth2/code/kakao?code=${code}`, {
+                    method: "GET",
+                    // express
+                    // await fetch(`http://localhost:8000/user/login?code=${code}`, {
+                    //     method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    credentials: "include",
+                });
 
-                // message, registerSuccess, userData 반환
-                console.log(response);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
 
-                let { userData } = response;
-                console.log(userData);
-                // 로그인시 userData의 토큰만 담을것
-                dispatch(setUser(response.userData));
+                const result = await response.json();
+                const { data } = result;
+
+                // data[0(accessToken),1(userName),2(userId)], message, statusCode 반환
+                const [accessToken, userName, userId] = data;
+
+                // 로그인시 토큰을 제외한 userData 담을것
+                const userData = { userName, userId };
+                dispatch(setUser(userData));
                 dispatch(setUserStatus(true));
+
+                localStorage.setItem("kakaoToken", accessToken);
+                localStorage.setItem("accessToken", response.headers.get("Authorization"));
 
                 // API 호출 성공 시 메인 페이지로 이동
                 navigate("/", { replace: true });
@@ -44,21 +51,23 @@ const KakaoRedirect = () => {
                 console.error(error);
             }
         },
-        [navigate]
+        [dispatch, navigate]
     );
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const codeParam = urlParams.get("code");
+
+        if (codeParam) {
+            setCode(codeParam);
+        }
+    }, []);
 
     useEffect(() => {
         if (code) {
             fetchLogin(code);
         }
     }, [code, fetchLogin]);
-
-    useEffect(() => {
-        const Address = new URL(window.location.href);
-        const code = Address.searchParams.get("code") || "";
-
-        setCode(code);
-    }, []);
 
     return (
         <S.LoginContainer>
