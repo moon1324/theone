@@ -1,57 +1,44 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, setUserStatus } from "../../modules/login";
 
 import S from "./style";
 
 const KakaoRedirect = () => {
-    const [code, setCode] = useState("");
     const navigate = useNavigate();
-    const headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-    };
+    const dispatch = useDispatch();
 
-    // Spring 코드
-    // const fetchLogin = async () => {
-    //     fetch(`http://14.5.86.192:8090/api/user/login/oauth2/code/kakao?code=${code}`, {
-    //         method: "GET",
-    //         headers: headers,
-    //         credentials: "include",
-    //     })
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //             console.log("data : " + JSON.stringify(data));
-    //         })
-    //         .catch((error) => {
-    //             console.error("오류 발생", error); //
-    //         });
-    // };
+    const [code, setCode] = useState("");
 
     // node 코드
     const fetchLogin = useCallback(
         async (code) => {
             try {
-                // const param = {
-                //     code,
-                // };
-
                 const response = await (
-                    await fetch(`http://localhost:8000/user/login?code=${code}`, {
-                        method: "POST",
-                        // headers: {
-                        //     "Content-Type": "application/json",
-                        // },
+                    await fetch(`http://14.5.86.192:8090/api/user/login/oauth2/code/kakao?code=${code}`, {
+                        method: "GET",
+                        // express
+                        // await fetch(`http://localhost:8000/user/login?code=${code}`, {
+                        //     method: "POST",
                         headers: {
                             "Content-Type": "application/x-www-form-urlencoded",
                         },
-                        // string으로 전달해야함
-                        // body: JSON.stringify(param),
+                        credentials: "include",
                     })
                 ).json();
 
+                // message, registerSuccess, userData 반환
                 console.log(response);
 
+                let { userData } = response;
+                console.log(userData);
+                // 로그인시 userData의 토큰만 담을것
+                dispatch(setUser(response.userData));
+                dispatch(setUserStatus(true));
+
                 // API 호출 성공 시 메인 페이지로 이동
-                navigate("/");
+                navigate("/", { replace: true });
             } catch (error) {
                 alert("Function fetchLogin error!");
                 console.error(error);
@@ -85,6 +72,23 @@ const KakaoRedirect = () => {
 };
 
 export default KakaoRedirect;
+// Spring 코드
+// const fetchLogin = async () => {
+//         fetch(`http://14.5.86.192:8090/api/user/login/oauth2/code/kakao?code=${code}`, {
+//                 method: "GET",
+//                 headers: {
+//                     "Content-Type": "application/x-www-form-urlencoded",
+//                 },
+//                 credentials: "include",
+//             })
+//                 .then((response) => response.json())
+//                 .then((data) => {
+//                         console.log("data : " + JSON.stringify(data));
+//                     })
+//                     .catch((error) => {
+//                             console.error("오류 발생", error); //
+//                         });
+//                 };
 
 // 이전 node 코드
 // const fetchLogin = async () => {
