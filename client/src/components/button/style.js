@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { flexCenter } from "../../global/common";
 
 const variantCSS = {
     default: css`
@@ -10,30 +11,19 @@ const variantCSS = {
     disabled: css`
         background-color: ${({ theme }) => theme.PALETTE.gray[100]};
     `,
-    home: css`
+    primary: css`
         background-color: ${({ theme }) => theme.PALETTE.primary};
     `,
 };
 
 const shapeCSS = {
     default: css``,
-    home: css`
-        border-radius: 12px;
-    `,
-    // round: css`
-    //     border-radius: 50%;
-    // `,
 };
 
 const sizeCSS = {
     default: css`
-        width: 80px;
-        height: 40px;
-    `,
-    home: css`
-        width: 300px;
-        height: 45px;
-        /* padding: 14px 0; */
+        width: 5rem;
+        height: 2.5rem;
     `,
     // full: css`
     //     width: 100%;
@@ -44,16 +34,13 @@ const sizeCSS = {
 
 const borderCSS = {
     default: css`
-        border: 1px solid ${({ theme }) => theme.PALETTE.text[black]};
+        border: 1px solid ${({ theme }) => theme.PALETTE.text.black};
     `,
     gray: css`
         border: 1px solid ${({ theme }) => theme.PALETTE.gray[200]};
     `,
     disabled: css`
         border: 1px solid ${({ theme }) => theme.PALETTE.gray[100]};
-    `,
-    home: css`
-        border: none;
     `,
 };
 
@@ -62,7 +49,7 @@ const colorCSS = {
         color: #fff;
     `,
     black: css`
-        color: ${({ theme }) => theme.PALETTE.text[black]};
+        color: ${({ theme }) => theme.PALETTE.text.black};
     `,
     gray: css`
         color: ${({ theme }) => theme.PALETTE.gray[200]};
@@ -79,6 +66,8 @@ const Button = styled.button`
     ${({ border }) => borderCSS[border]}
     ${({ color }) => colorCSS[color]}
 
+    ${flexCenter}
+    font-size: ${({ theme }) => theme.FONT_SIZE.p};
     cursor: pointer;
 `;
 

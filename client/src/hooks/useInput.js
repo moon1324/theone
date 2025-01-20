@@ -6,7 +6,6 @@ const useInput = (initialValue) => {
     const onChangeValue = (e) => {
         setValue(e.target.value);
     };
-    // console.log(onChangeValue)
 
     return [value, setValue, onChangeValue];
 };

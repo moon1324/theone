@@ -10,17 +10,24 @@ const sizeCSS = {
     default: css`
         width: 40rem;
         height: 2.5rem;
+        padding: 0 1rem;
     `,
 
-    tablet: css`
-        width: 20rem;
-        height: 2.5rem;
+    title: css`
+        width: 100%;
+        height: 1rem;
     `,
 };
 
 const borderCSS = {
     default: css`
+        border: none;
+    `,
+
+    title: css`
         border: 1px solid ${({ theme }) => theme.PALETTE.text.black};
+        padding: 0.6rem;
+        margin-right: 1rem;
     `,
 };
 
@@ -28,9 +35,7 @@ const Input = styled.input`
     ${({ variant }) => variantCSS[variant]}
     ${({ size }) => sizeCSS[size]}
     ${({ border }) => borderCSS[border]}
-    padding: 0 1rem;
     outline: none;
-    height: 2.5rem;
 `;
 
 export default Input;

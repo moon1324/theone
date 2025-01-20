@@ -78,10 +78,16 @@ S.SelectDropdown = styled.div`
 `;
 
 S.SearchBar = styled.div`
+    position: relative;
     width: 40rem;
     height: 2.5rem;
     border-bottom: 1px solid ${theme.PALETTE.text.black};
 
+    & .icon {
+        position: absolute;
+        right: 1rem;
+        top: 0.75rem;
+    }
     /* 태블릿용 스타일 */
     @media only screen and (min-width: 768px) and (max-width: 1024px) {
         width: 20rem;
@@ -104,15 +110,44 @@ S.WriteButton = styled.div`
 
 S.SuggestionPostTable = styled.table`
     width: 100%;
-    height: 24rem;
+    height: 22rem;
     border-top: 1px solid ${theme.PALETTE.text.black};
 
     & tr {
+        max-height: 2rem;
         border-bottom: 1px solid ${theme.PALETTE.text.black};
     }
 
     & th {
         padding: 0.5rem;
+    }
+
+    & td {
+        padding: 0.5rem;
+        text-align: center;
+    }
+
+    & .empty {
+        border-bottom: none;
+    }
+
+    /* empty 클래스가 포함된 tr이 있을 때 border-bottom 추가 */
+    ${({ hasEmptyRows }) =>
+        hasEmptyRows &&
+        `
+        border-bottom: 1px solid ${theme.PALETTE.text.black};
+    `}
+`;
+
+S.SuggestionPostTableTdMessage = styled.div`
+    width: 100%;
+    height: 100%;
+    ${flexCenterColumn}
+
+    & svg {
+        width: 3rem;
+        height: 3rem;
+        margin-bottom: 1rem;
     }
 `;
 
@@ -121,11 +156,11 @@ S.SuggestionPagination = styled.div`
     margin: 1rem;
     & div {
         margin: 0.5rem;
+        cursor: pointer;
     }
 `;
 
 // SuggestionPost
-
 S.SuggestionPostContainer = styled.div``;
 
 S.SuggestionPost = styled.div`
@@ -138,35 +173,38 @@ S.SuggestionPostHeader = styled.div`
     justify-content: space-between;
     border-bottom: 1px solid ${theme.PALETTE.text.black};
     & span {
-        margin: 1rem 2rem;
+        margin: 0rem 1rem;
         font-weight: 500;
     }
 `;
 
-S.SuggestionPostTitle = styled.h4`
-    margin: 1rem;
+S.SuggestionPostTitle = styled.div`
+    display: flex;
+    margin: 0.5rem 1rem;
 `;
 
 S.SuggestionPostInfoWrapper = styled.div`
     display: flex;
 `;
 
-S.SuggestionPostWriter = styled.h4`
-    margin: 1rem;
+S.SuggestionPostWriter = styled.div`
+    display: flex;
+    margin: 0.5rem 0rem;
+    margin-right: 1rem;
 `;
 
-S.SuggestionPostDate = styled.h4`
-    margin: 1rem;
-    margin-right: 3rem;
+S.SuggestionPostDate = styled.div`
+    display: flex;
+    margin: 0.5rem 0rem;
+    margin-right: 2rem;
 `;
 
 S.SuggestionPostBody = styled.div`
-    /* height: 10rem; */
     border-bottom: 1px solid ${theme.PALETTE.text.black};
 `;
 
 S.SuggestionPostContent = styled.div`
-    margin: 1rem 3rem;
+    margin: 0.5rem 2rem;
     min-height: 12rem;
 `;
 
@@ -178,15 +216,16 @@ S.SuggestionPostFooter = styled.div`
 S.SuggestionIconsWrapper = styled.div`
     display: flex;
     align-items: center;
-    margin: 1rem 3rem;
+    margin: 0.5rem 2rem;
+
     & span {
         margin-left: 0.5rem;
     }
 `;
 
 S.SuggestionIcon = styled.div`
-    width: 2.5rem;
-    margin-right: 1rem;
+    width: 2rem;
+    margin-right: 1.5rem;
 `;
 
 S.SuggestionReplyContainer = styled.div`
@@ -196,11 +235,13 @@ S.SuggestionReplyContainer = styled.div`
 
 S.EnterIcon = styled.div`
     /* width: 2.5rem; */
+    ${flexCenter}
     display: flex;
-    margin: 1rem 3rem;
+    padding: 0.5rem 2rem;
     & .icon {
         transform: rotate(90deg);
     }
+    /* border-bottom: 1px solid ${theme.PALETTE.text.black}; */
 `;
 
 S.SuggestionReply = styled.div`
@@ -214,11 +255,13 @@ S.SuggestionReplyHeader = styled.div`
 `;
 
 S.SuggestionReplyWriter = styled.div`
-    margin: 1rem;
+    margin: 0.5rem 0rem;
+    margin-left: 2rem;
 `;
 
 S.SuggestionReplyDate = styled.div`
-    margin: 1rem;
+    margin: 0.5rem 0rem;
+    margin-left: 2rem;
 `;
 
 S.SuggestionReplyBody = styled.div`
@@ -227,11 +270,46 @@ S.SuggestionReplyBody = styled.div`
 `;
 
 S.SuggestionReplyContent = styled.div`
-    margin: 1rem 3rem;
+    margin: 0.5rem 2rem;
 `;
 S.SuggestionReplyFooter = styled.div`
     /* width: 100%; */
     border-bottom: 1px solid ${theme.PALETTE.text.black};
+`;
+
+S.SuggestionButtonsContainer = styled.div`
+    margin: 4rem 0rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    & button {
+        /* margin: 0rem 1rem; */
+    }
+`;
+
+S.SuggestionPostMessageContainer = styled.div`
+    height: 70vh;
+`;
+
+S.SuggestionPostMessage = styled.div`
+    width: 100%;
+    height: 100%;
+    ${flexCenterColumn}
+
+    & svg {
+        width: 3rem;
+        height: 3rem;
+        margin-bottom: 1rem;
+    }
+`;
+
+S.SuggestionWriteHeader = styled.div`
+    border-bottom: 1px solid ${theme.PALETTE.text.black};
+    & span {
+        margin: 0rem 1rem;
+        font-weight: 500;
+    }
 `;
 
 export default S;

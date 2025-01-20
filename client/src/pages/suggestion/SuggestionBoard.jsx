@@ -1,85 +1,92 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import S from "./style";
 import { useNavigate } from "react-router-dom";
+import TheoneButton from "../../components/button/TheoneButton";
 import Dropdown from "../../components/dropdown/Dropdown";
 import Input from "../../components/input/style";
 import useInput from "../../hooks/useInput";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 const SuggestionBoard = () => {
     const [suggestions, setSuggestions] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-
-    // useInput hook 사용
+    const [dropdownItem, setDropdownItem] = useState("전체");
     const [searchValue, setSearchValue, handleSearchChange] = useInput("");
-    const searchRef = useRef(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const hasEmptyRows = suggestions.length < 10;
 
-    // dropdown 리스트 목록
-    const dropdownLi = { data: ["제목", "내용", "제목+내용", "작성자"] };
-
+    const dropdownOptions = ["전체", "제목", "내용", "제목+내용", "작성자"];
     const navigate = useNavigate();
 
-    useEffect(() => {
-        getSuggestion();
-    }, []);
+    // 한글 -> 영어 매핑 객체
+    const searchTypeMapping = {
+        전체: "all",
+        제목: "title",
+        내용: "content",
+        "제목+내용": "all",
+        작성자: "userName",
+    };
 
-    const getSuggestion = async () => {
+    const getSuggestion = async (searchType = "all", searchValue = "", page = 1) => {
+        setLoading(true);
         try {
-            const response = await fetch(`http://localhost:8090/api/suggestion`, {
+            // 14.5.86.192:8090
+            // 192.168.32.99:8090
+            const response = await fetch(`http://14.5.86.192:8090/api/suggestion?page=${page}&searchType=${searchType}&searchValue=${searchValue}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 credentials: "include",
             });
+
             if (!response.ok) {
-                throw new Error("Failed to get Suggestion");
+                throw new Error("Failed to fetch suggestions");
             }
 
-            const responseJson = await response.json();
-            const suggestionList = responseJson.data;
+            const result = await response.json();
+            console.log(result);
+            console.log(result.data);
+            console.log(result.data.content);
 
-            console.log("suggestionList : " + JSON.stringify(suggestionList));
-
-            setSuggestions(suggestionList);
-            setLoading(false);
+            setSuggestions(result.data.content);
+            setTotalPages(result.data.totalPages);
         } catch (error) {
             console.error(error);
+            setError(error.message);
+        } finally {
             setLoading(false);
         }
     };
 
-    const handleDetailButtonClick = (suggestionId) => {
-        navigate(`/suggestion/${suggestionId}`);
+    const handlePageClick = (page) => {
+        setCurrentPage(page);
+        const searchType = searchTypeMapping[dropdownItem];
+        getSuggestion(searchType, searchValue, page);
     };
 
-    const handleWriteButtonClick = () => {
-        navigate(`/suggestion/write`);
+    const handleSearchSubmit = () => {
+        setCurrentPage(1);
+        const searchType = searchTypeMapping[dropdownItem];
+        getSuggestion(searchType, searchValue, 1);
     };
-
-    // search
-
-    const handleSearchSubmit = async () => {
-        // navigate(`/search?value=${searchValue}`);
-    };
-
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (searchRef.current && !searchRef.current.contains(e.target)) {
-                setSearchValue("");
-            }
-        };
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [setSearchValue]);
 
     const handleKeyPress = (e) => {
         if (e.key === "Enter") {
             handleSearchSubmit();
         }
     };
+
+    const onClickNavigateSuggestionWrite = () => {
+        navigate(`/suggestion/write`);
+    };
+
+    useEffect(() => {
+        getSuggestion();
+    }, []);
 
     return (
         <S.SuggestionBoardContainer>
@@ -94,19 +101,30 @@ const SuggestionBoard = () => {
             </S.SuggestionDescriptionContainer>
             <S.SuggestionPostBox>
                 <S.SuggestionPostBoxHeader>
-                    {/* <S.SelectDropdown></S.SelectDropdown> */}
-                    <Dropdown props={dropdownLi}></Dropdown>
-                    <Input
-                        // variant={"default"}
-                        // size={"default"}
-                        // border={"default"}
-                        value={searchValue}
-                        onChange={handleSearchChange}
-                        onKeyPress={handleKeyPress}
-                    />
-                    <S.WriteButton onClick={() => handleWriteButtonClick()}>글 쓰기</S.WriteButton>
+                    <Dropdown data={dropdownOptions} onChange={(value) => setDropdownItem(value)} />
+                    <S.SearchBar>
+                        <Input
+                            variant={"default"}
+                            size={"default"}
+                            border={"default"}
+                            value={searchValue}
+                            onChange={handleSearchChange}
+                            onKeyPress={handleKeyPress}
+                        />
+                        <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" onClick={handleSearchSubmit} />
+                    </S.SearchBar>
+                    <TheoneButton
+                        variant={"primary"}
+                        shape={"default"}
+                        size={"default"}
+                        border={"default"}
+                        color={"defalut"}
+                        onClick={onClickNavigateSuggestionWrite}
+                    >
+                        글 쓰기
+                    </TheoneButton>
                 </S.SuggestionPostBoxHeader>
-                <S.SuggestionPostTable>
+                <S.SuggestionPostTable hasEmptyRows={hasEmptyRows}>
                     <thead>
                         <tr>
                             <th>번호</th>
@@ -117,20 +135,64 @@ const SuggestionBoard = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {suggestions.map((suggestion, index) => (
-                            <tr key={suggestion.suggestionId} onClick={() => handleDetailButtonClick(suggestion.suggestionId)}>
-                                <td>{index + 1}</td>
-                                <td>{suggestion.title}</td>
-                                <td>{suggestion.userName}</td>
-                                <td>{suggestion.createdAt}</td>
-                                <td>{suggestion.hits}</td>
+                        {loading ? (
+                            <tr>
+                                <td colSpan="5">
+                                    <S.SuggestionPostTableTdMessage>
+                                        <S.SuggestionDescription>Loading...</S.SuggestionDescription>
+                                    </S.SuggestionPostTableTdMessage>
+                                </td>
                             </tr>
-                        ))}
+                        ) : error ? (
+                            <tr>
+                                <td colSpan="5">{error}</td>
+                            </tr>
+                        ) : suggestions.length > 0 ? (
+                            <>
+                                {suggestions.map((suggestion, index) => (
+                                    <tr key={suggestion.suggestionId} onClick={() => navigate(`/suggestion/${suggestion.suggestionId}`)}>
+                                        <td>{index + 1 + (currentPage - 1) * 10}</td>
+                                        <td>{suggestion.title}</td>
+                                        <td>{suggestion.userName}</td>
+                                        <td>{suggestion.createdAt}</td>
+                                        <td>{suggestion.hits}</td>
+                                    </tr>
+                                ))}
+                                {Array.from({ length: 10 - suggestions.length }).map((_, idx) => (
+                                    <tr className="empty" key={`empty-${idx}`}>
+                                        <td colSpan="5">&nbsp;</td>
+                                    </tr>
+                                ))}
+                            </>
+                        ) : searchValue ? (
+                            <tr>
+                                <td colSpan="5">
+                                    <S.SuggestionPostTableTdMessage>
+                                        <FontAwesomeIcon icon={faTriangleExclamation} className="icon" />
+                                        <S.SuggestionDescription>'{searchValue}' 에 해당하는 검색 결과가 없습니다.</S.SuggestionDescription>
+                                        <S.SuggestionDescription>다른 검색어를 시도해보세요!</S.SuggestionDescription>
+                                    </S.SuggestionPostTableTdMessage>
+                                </td>
+                            </tr>
+                        ) : (
+                            <tr>
+                                <td colSpan="5">
+                                    <S.SuggestionPostTableTdMessage>
+                                        <FontAwesomeIcon icon={faTriangleExclamation} className="icon" />
+                                        <S.SuggestionDescription>게시된 글이 아직 없습니다.</S.SuggestionDescription>
+                                        <S.SuggestionDescription>글을 작성해주세요!</S.SuggestionDescription>
+                                    </S.SuggestionPostTableTdMessage>
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </S.SuggestionPostTable>
                 <S.SuggestionPagination>
-                    <div>1</div>
-                    <div>2</div>
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <div key={i + 1} className={i + 1 === currentPage ? "active" : ""} onClick={() => handlePageClick(i + 1)}>
+                            {i + 1}
+                        </div>
+                    ))}
                 </S.SuggestionPagination>
             </S.SuggestionPostBox>
         </S.SuggestionBoardContainer>

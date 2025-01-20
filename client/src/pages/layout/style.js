@@ -82,7 +82,8 @@ S.Nav = styled.nav`
     margin-right: 8rem;
 
     & div {
-        margin: 1rem;
+        margin: 1rem 0rem;
+        margin-left: 2rem;
     }
 
     /* 태블릿용 스타일 */

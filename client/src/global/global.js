@@ -88,6 +88,13 @@ const GlobalStyle = createGlobalStyle`
         }
     }
 
+    textarea {
+        font-size: ${theme.FONT_SIZE.p};
+
+        @media only screen and (max-width: 767px) {
+            font-size: ${theme.MOBILE_FONT_SIZE.p};
+        }
+    }
 
 `;
 

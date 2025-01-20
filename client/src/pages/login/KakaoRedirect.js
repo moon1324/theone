@@ -15,6 +15,8 @@ const KakaoRedirect = () => {
     const fetchLogin = useCallback(
         async (code) => {
             try {
+                // 14.5.86.192:8090
+                // 192.168.32.99:8090
                 const response = await fetch(`http://14.5.86.192:8090/api/user/login/oauth2/code/kakao?code=${code}`, {
                     method: "GET",
                     // express
@@ -41,9 +43,8 @@ const KakaoRedirect = () => {
                 dispatch(setUser(userData));
                 dispatch(setUserStatus(true));
 
-                localStorage.setItem("kakaoToken", accessToken);
-                localStorage.setItem("accessToken", response.headers.get("Authorization"));
-
+                localStorage.setItem("accessToken", accessToken);
+                console.log(localStorage.getItem("accessToken"));
                 // API 호출 성공 시 메인 페이지로 이동
                 navigate("/", { replace: true });
             } catch (error) {
@@ -81,63 +82,3 @@ const KakaoRedirect = () => {
 };
 
 export default KakaoRedirect;
-// Spring 코드
-// const fetchLogin = async () => {
-//         fetch(`http://14.5.86.192:8090/api/user/login/oauth2/code/kakao?code=${code}`, {
-//                 method: "GET",
-//                 headers: {
-//                     "Content-Type": "application/x-www-form-urlencoded",
-//                 },
-//                 credentials: "include",
-//             })
-//                 .then((response) => response.json())
-//                 .then((data) => {
-//                         console.log("data : " + JSON.stringify(data));
-//                     })
-//                     .catch((error) => {
-//                             console.error("오류 발생", error); //
-//                         });
-//                 };
-
-// 이전 node 코드
-// const fetchLogin = async () => {
-//     fetch(`http://localhost:8000/user/login?code=${code}`, {
-//         method: "POST",
-//         headers: headers,
-//     })
-//         .then((response) => response.json())
-//         .then((data) => {
-//             // console.log(data);
-//             getUserInfo(data.access_token);
-//         })
-//         .catch((error) => {
-//             console.error("오류 발생", error); //
-//         });
-// };
-
-// const getUserInfo = async (accessToken) => {
-//     try {
-//         const response = await fetch("https://kapi.kakao.com/v2/user/me", {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/x-www-form-urlencoded",
-//                 Authorization: `Bearer ${accessToken}`,
-//             },
-//         });
-
-//         if (!response.ok) {
-//             throw new Error(`Failed to fetch user info: ${response.statusText}`);
-//         }
-
-//         const authInfo = await response.json();
-//         console.log(authInfo); // 사용자 정보 확인
-//         return authInfo;
-//     } catch (error) {
-//         console.error("Error fetching user info:", error);
-//         throw error;
-//     }
-// };
-
-// useEffect(() => {
-//     fetchLogin();
-// }, []);

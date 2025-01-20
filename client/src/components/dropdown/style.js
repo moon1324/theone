@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import theme from "../../global/theme";
-import { flexCenter, flexCenterColumn } from "../../global/common";
 
 const S = {};
 
@@ -17,33 +16,28 @@ S.SelectBox = styled.div`
 S.Label = styled.label`
     width: 100%;
     display: flex;
-    align-self: center;
+    align-items: center;
     justify-content: space-around;
-    /* display: inline-block; */
+    font-size: ${theme.FONT_SIZE.p};
 `;
 
 S.SelectOptions = styled.ul`
     position: absolute;
     top: 2.5rem;
     left: 0;
-    width: 8rem;
-
-    max-height: 200px;
-    overflow-y: auto;
-    border: ${(props) => (props.show ? `1px solid ${theme.PALETTE.text.black}` : "none")};
-    max-height: ${(props) => (props.show ? "none" : "0")};
+    width: 100%;
+    border: 1px solid ${theme.PALETTE.text.black};
     background-color: ${theme.PALETTE.background};
+    z-index: 10; /* 드롭다운이 다른 요소보다 위에 오도록 설정 */
 `;
 
 S.Option = styled.li`
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 2.5rem;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: ${theme.FONT_SIZE.p};
+    cursor: pointer;
+
     &:hover {
-        // hover 색상 후보
-        background: ${theme.PALETTE.primary};
+        background-color: ${theme.PALETTE.primary};
     }
 `;
 

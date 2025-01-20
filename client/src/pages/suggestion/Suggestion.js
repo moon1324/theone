@@ -1,14 +1,12 @@
 import React from "react";
 import S from "./style";
-import SuggestionBoard from "./SuggestionBoard";
-import SuggestionPost from "./SuggestionPost";
+import { Outlet } from "react-router-dom";
 
 const Suggestion = () => {
     return (
         <S.SuggestionContainer>
             <S.SuggestionTitle>건의사항</S.SuggestionTitle>
-            <SuggestionBoard />
-            {/*<SuggestionPost />*/}
+            <Outlet />
         </S.SuggestionContainer>
     );
 };

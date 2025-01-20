@@ -5,6 +5,7 @@ import Suggestion from "../pages/suggestion/Suggestion";
 import PageNotFound from "../pages/error/PageNotFound";
 import Login from "../pages/login/Login";
 import KakaoRedirect from "../pages/login/KakaoRedirect";
+import SuggestionBoard from "../pages/suggestion/SuggestionBoard";
 import SuggestionPost from "../pages/suggestion/SuggestionPost";
 import SuggestionWrite from "../pages/suggestion/SuggestionWrite";
 
@@ -20,14 +21,24 @@ const router = createBrowserRouter([
             {
                 path: "/suggestion",
                 element: <Suggestion />,
-            },
-            {
-                path: "/suggestion/:suggestionId",
-                element: <SuggestionPost />,
-            },
-            {
-                path: "/suggestion/write",
-                element: <SuggestionWrite />,
+                children: [
+                    {
+                        path: "",
+                        element: <SuggestionBoard />,
+                    },
+                    {
+                        path: ":suggestionId",
+                        element: <SuggestionPost />,
+                    },
+                    {
+                        path: "write",
+                        element: <SuggestionWrite />,
+                    },
+                    {
+                        path: "test",
+                        element: <SuggestionPost />,
+                    },
+                ],
             },
         ],
     },
