@@ -1,22 +1,29 @@
 import React, { useEffect } from "react";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, setUserLogout, setUserStatus } from "../../modules/login"; // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faBars } from "@fortawesome/free-solid-svg-icons";
 import S from "./style";
 
 const Layout = () => {
     const location = useLocation();
-    const path = location.pathname;
-    // const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     console.log(path);
-    // }, [path]);
+    const { isLogin } = useSelector((state) => state.login);
 
     const handleHomeClick = () => {
-        if (path === "/") {
+        if (location.pathname === "/") {
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
+    };
+
+    const handleLogout = () => {
+        // Redux 상태와 localStorage 초기화
+        dispatch(setUserLogout({}, false));
+        localStorage.removeItem("accessToken");
+        alert("로그아웃 되었습니다.");
+        navigate("/", { replace: true });
     };
 
     const handleSocialMediaRedirect = (url) => {
@@ -27,42 +34,27 @@ const Layout = () => {
         <S.Wrapper>
             <S.Header>
                 <S.HeaderContainer>
-                    {/* logo를 눌렀을 때 home으로 이동 */}
                     <S.LogoWrapper>
-                        {/* 경로가 /일때 home을 누르면 스크롤업 되게 */}
                         <NavLink to={"/"} onClick={handleHomeClick}>
                             <img src={process.env.PUBLIC_URL + "global/images/new_logo.png"} alt="logo" />
                         </NavLink>
                     </S.LogoWrapper>
                     <S.Nav>
-                        {/* 경로가 /일때 home을 누르면 스크롤업 되게 */}
                         <NavLink to={"/"} onClick={handleHomeClick}>
                             <div>HOME</div>
                         </NavLink>
                         <NavLink to={"/suggestion"}>
                             <div>건의사항</div>
                         </NavLink>
-                        <NavLink to={"/login"}>
-                            <div>로그인/회원가입</div>
-                        </NavLink>
-                        {/* 로그인 상태일 때는 logout을 띄우도록 */}
-                        {/* <NavLink to={"/login"}>
-                            <div>로그아웃</div>
-                        </NavLink> */}
-                        {/* {isLoggedIn ? (
-                            <div
-                                onClick={() => {
-                                    setIsLoggedIn(false);
-                                    // 로그아웃 로직 추가
-                                }}
-                            >
-                                로그아웃
-                            </div>
-                        ) : (
+                        {!isLogin ? (
                             <NavLink to={"/login"}>
                                 <div>로그인/회원가입</div>
                             </NavLink>
-                        )} */}
+                        ) : (
+                            <div onClick={handleLogout} style={{ cursor: "pointer" }}>
+                                로그아웃
+                            </div>
+                        )}
                     </S.Nav>
                     {/* <S.MobileNav>
                         <S.MobileDropdown>

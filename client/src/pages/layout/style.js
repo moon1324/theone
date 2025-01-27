@@ -152,6 +152,8 @@ S.SocialMediaImageWrapper = styled.div`
     height: 2rem;
     margin: 1rem;
     align-items: center;
+    cursor: pointer;
+
     & img {
         width: 100%;
     }
