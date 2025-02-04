@@ -52,6 +52,7 @@ S.SuggestionDescription = styled.p`
     /* 글자가 화면을 넘어갈 때 밑으로 내리기 */
     white-space: break-spaces;
     color: ${theme.PALETTE.text.black};
+    cursor: default;
 `;
 
 S.SuggestionPostBox = styled.div`
@@ -113,18 +114,63 @@ S.SuggestionPostTable = styled.table`
     height: 22rem;
     border-top: 1px solid ${theme.PALETTE.text.black};
 
-    & tr {
+    & thead tr {
         max-height: 2rem;
         border-bottom: 1px solid ${theme.PALETTE.text.black};
+        cursor: default; /* thead의 tr은 기본 커서 */
     }
 
-    & th {
-        padding: 0.5rem;
+    & tbody tr {
+        max-height: 2rem;
+        border-bottom: 1px solid ${theme.PALETTE.text.black};
+        cursor: pointer; /* tbody의 tr에 포인터 커서 적용 */
+
+        &.cursor-default {
+            cursor: default; /* empty 클래스가 있는 tr은 기본 커서 */
+        }
     }
 
+    & th,
     & td {
         padding: 0.5rem;
         text-align: center;
+    }
+
+    /* 번호, 이름, 날짜, 조회수 칸의 너비 설정 */
+    & th:nth-child(1),
+    & td:nth-child(1) {
+        width: 10%; /* 번호 */
+    }
+
+    & th:nth-child(3),
+    & td:nth-child(3) {
+        width: 10%; /* 이름 */
+    }
+
+    & th:nth-child(4),
+    & td:nth-child(4) {
+        width: 10%; /* 날짜 */
+    }
+
+    & th:nth-child(5),
+    & td:nth-child(5) {
+        width: 10%; /* 조회수 */
+    }
+
+    & th:nth-child(4),
+    & th:nth-child(5) {
+        cursor: pointer;
+    }
+
+    /* 제목 칸은 남은 공간을 차지 */
+    & th:nth-child(2) {
+        width: auto;
+        text-align: center;
+    }
+
+    & td:nth-child(2) {
+        width: auto; /* 제목 */
+        text-align: left; /* 제목은 왼쪽 정렬 */
     }
 
     & .empty {
@@ -152,10 +198,30 @@ S.SuggestionPostTableTdMessage = styled.div`
 `;
 
 S.SuggestionPagination = styled.div`
+    width: 100%;
     ${flexCenter}
     margin: 1rem;
+`;
+
+S.PaginationNumbersContainer = styled.div`
+    width: 8rem;
+    ${flexCenter}
     & div {
         margin: 0.5rem;
+        cursor: pointer;
+    }
+
+    & .active {
+        color: ${theme.PALETTE.primary};
+    }
+`;
+
+S.PaginationArrowsContainer = styled.div`
+    width: 4rem;
+    ${flexCenter}
+    margin: 0 0.5rem;
+    & svg {
+        margin: 0.25rem;
         cursor: pointer;
     }
 `;
@@ -216,6 +282,12 @@ S.SuggestionPostFooter = styled.div`
 S.SuggestionIconsWrapper = styled.div`
     display: flex;
     align-items: center;
+    justify-content: space-between;
+`;
+
+S.SuggestionReactionWrapper = styled.div`
+    display: flex;
+    align-items: center;
     margin: 0.5rem 2rem;
 
     & span {
@@ -223,9 +295,28 @@ S.SuggestionIconsWrapper = styled.div`
     }
 `;
 
+S.SuggestionInteractionWrapper = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+S.SuggestionInteractionButton = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
 S.SuggestionIcon = styled.div`
     width: 2rem;
     margin-right: 1.5rem;
+    ${flexCenter}
+
+    & svg.icon {
+        cursor: pointer;
+    }
+
+    &.reduce-margin-right {
+        margin-right: 0.5rem;
+    }
 `;
 
 S.SuggestionReplyContainer = styled.div`
@@ -271,10 +362,28 @@ S.SuggestionReplyBody = styled.div`
 
 S.SuggestionReplyContent = styled.div`
     margin: 0.5rem 2rem;
+    & p {
+        white-space: pre-line;
+    }
 `;
 S.SuggestionReplyFooter = styled.div`
     /* width: 100%; */
     border-bottom: 1px solid ${theme.PALETTE.text.black};
+`;
+
+S.SuggestionReplyInputContainer = styled.div`
+    min-height: 6rem;
+    display: flex;
+
+    border-bottom: 1px solid ${theme.PALETTE.text.black};
+
+    & textarea {
+        margin: 0.25rem;
+    }
+`;
+
+S.SuggestionReplyButtonsContainer = styled.div`
+    ${flexCenter}
 `;
 
 S.SuggestionButtonsContainer = styled.div`

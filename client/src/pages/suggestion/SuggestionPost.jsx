@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faComment, faTurnUp } from "@fortawesome/free-solid-svg-icons";
+import { faHeart, faComment, faTurnUp, faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import S from "./style";
 import { useNavigate, useParams } from "react-router-dom";
 import TheoneButton from "../../components/button/TheoneButton";
 import Textarea from "../../components/textarea/style";
 import useInput from "../../hooks/useInput";
-import Input from "../../components/input/style";
+import { useSelector } from "react-redux";
 
 const SuggestionPost = () => {
     const { suggestionId } = useParams();
@@ -16,6 +16,8 @@ const SuggestionPost = () => {
     const [content, setContent, handleContentChange] = useInput("댓글을 입력하세요");
 
     const navigate = useNavigate();
+
+    const { currentUser } = useSelector((state) => state.login);
 
     const onClickNavigateSuggestionBoard = () => {
         navigate("/suggestion");
@@ -37,11 +39,32 @@ const SuggestionPost = () => {
         }
     };
 
+    const getTimeAgo = (createdAt) => {
+        const now = new Date();
+        const createdTime = new Date(createdAt);
+        const diffInMs = now - createdTime;
+        const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+        const diffInHours = Math.floor(diffInMinutes / 60);
+        const diffInDays = Math.floor(diffInHours / 24);
+        const diffInWeeks = Math.floor(diffInDays / 7);
+        const diffInMonths = Math.floor(diffInWeeks / 4.345); // average weeks per month
+        const diffInYears = Math.floor(diffInMonths / 12);
+
+        if (diffInMinutes < 1) return "방금 전";
+        if (diffInMinutes < 60) return `${diffInMinutes}분 전`;
+        if (diffInHours < 24) return `${diffInHours}시간 전`;
+        if (diffInDays < 2) return `하루 전`;
+        if (diffInDays < 7) return `${diffInDays}일 전`;
+        if (diffInWeeks < 4) return `${diffInWeeks}주 전`;
+        if (diffInMonths < 12) return `${diffInMonths}달 전`;
+        return `${diffInYears}년 전`;
+    };
+
     const getSuggestionDetails = async () => {
         try {
             // 14.5.86.192:8090
             // 192.168.32.99:8090
-            const response = await fetch(`http://14.5.86.192:8090/api/suggestion/${suggestionId}`, {
+            const response = await fetch(`http://14.5.86.192:8080/api/suggestion/${suggestionId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -53,7 +76,8 @@ const SuggestionPost = () => {
             }
             const result = await response.json();
 
-            console.log("result : " + JSON.stringify(result));
+            // console.log("result : " + JSON.stringify(result));
+            console.log(result);
 
             setSuggestion(result.data);
             setLoading(false);
@@ -71,7 +95,7 @@ const SuggestionPost = () => {
         try {
             const accessToken = localStorage.getItem("accessToken");
             console.log(accessToken);
-            const response = await fetch(`http://14.5.86.192:8090/api/comment/${suggestionId}`, {
+            const response = await fetch(`http://14.5.86.192:8080/api/comment/${suggestionId}`, {
                 method: "POST",
                 headers: {
                     Authorization: accessToken,
@@ -100,7 +124,7 @@ const SuggestionPost = () => {
         try {
             const accessToken = localStorage.getItem("accessToken");
             console.log(accessToken);
-            const response = await fetch(`http://14.5.86.192:8090/api/suggestion/${suggestionId}`, {
+            const response = await fetch(`http://14.5.86.192:8080/api/suggestion/${suggestionId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: accessToken,
@@ -125,7 +149,7 @@ const SuggestionPost = () => {
         try {
             const accessToken = localStorage.getItem("accessToken");
             console.log(accessToken);
-            const response = await fetch(`http://14.5.86.192:8090/api/comment/${commentId}`, {
+            const response = await fetch(`http://14.5.86.192:8080/api/comment/${commentId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: accessToken,
@@ -174,32 +198,48 @@ const SuggestionPost = () => {
                     </S.SuggestionPostTitle>
                     <S.SuggestionPostInfoWrapper>
                         <S.SuggestionPostWriter>
-                            <span>작성자</span>
+                            <span>글쓴이</span>
                             <p>{suggestion.userName}</p>
                         </S.SuggestionPostWriter>
                         <S.SuggestionPostDate>
-                            <span>작성날짜</span>
-                            <p>{suggestion.createdAt}</p>
+                            <span>작성일시</span>
+                            <p>{getTimeAgo(suggestion.createdAt)}</p>
                         </S.SuggestionPostDate>
                     </S.SuggestionPostInfoWrapper>
                 </S.SuggestionPostHeader>
                 <S.SuggestionPostBody>
                     <S.SuggestionPostContent>
-                        <Textarea border={"default"} readOnly={"true"}>
+                        <Textarea border={"default"} size={"post"} readOnly={"true"}>
                             {suggestion.content}
                         </Textarea>
                     </S.SuggestionPostContent>
                 </S.SuggestionPostBody>
                 <S.SuggestionPostFooter>
                     <S.SuggestionIconsWrapper>
-                        <S.SuggestionIcon>
-                            <FontAwesomeIcon icon={faHeart} className="icon" />
-                            <span>{suggestion.likeCount}</span>
-                        </S.SuggestionIcon>
-                        <S.SuggestionIcon>
-                            <FontAwesomeIcon icon={faComment} className="icon" />
-                            <span>{suggestion.commentList.length}</span>
-                        </S.SuggestionIcon>
+                        <S.SuggestionReactionWrapper>
+                            <S.SuggestionIcon>
+                                <FontAwesomeIcon icon={faHeart} className="icon" />
+                                <span>{suggestion.likeCount}</span>
+                            </S.SuggestionIcon>
+                            <S.SuggestionIcon>
+                                <FontAwesomeIcon icon={faComment} className="icon" />
+                                <span>{suggestion.commentList.length}</span>
+                            </S.SuggestionIcon>
+                        </S.SuggestionReactionWrapper>
+                        {suggestion.userName === currentUser.userName && (
+                            <S.SuggestionInteractionWrapper>
+                                <S.SuggestionInteractionButton>
+                                    <S.SuggestionIcon className="reduce-margin-right">
+                                        <FontAwesomeIcon icon={faPenToSquare} className="icon" />
+                                    </S.SuggestionIcon>
+                                </S.SuggestionInteractionButton>
+                                <S.SuggestionInteractionButton>
+                                    <S.SuggestionIcon>
+                                        <FontAwesomeIcon icon={faTrashCan} className="icon" onClick={onClickDeleteSuggestion} />
+                                    </S.SuggestionIcon>
+                                </S.SuggestionInteractionButton>
+                            </S.SuggestionInteractionWrapper>
+                        )}
                     </S.SuggestionIconsWrapper>
                 </S.SuggestionPostFooter>
             </S.SuggestionPost>
@@ -213,43 +253,72 @@ const SuggestionPost = () => {
                             <S.SuggestionReply key={comment.commentId}>
                                 <S.SuggestionReplyHeader>
                                     <S.SuggestionReplyWriter>{comment.userName}</S.SuggestionReplyWriter>
-                                    <S.SuggestionReplyDate>{comment.createdAt}</S.SuggestionReplyDate>
+                                    <S.SuggestionReplyDate>{getTimeAgo(comment.createdAt)}</S.SuggestionReplyDate>
                                 </S.SuggestionReplyHeader>
                                 <S.SuggestionReplyBody>
-                                    <S.SuggestionReplyContent>{comment.content}</S.SuggestionReplyContent>
+                                    <S.SuggestionReplyContent>
+                                        <p>{comment.content}</p>
+                                    </S.SuggestionReplyContent>
                                 </S.SuggestionReplyBody>
                                 <S.SuggestionReplyFooter>
                                     <S.SuggestionIconsWrapper>
-                                        <S.SuggestionIcon>
-                                            <FontAwesomeIcon icon={faHeart} className="icon" />
-                                            <span>1</span>
-                                        </S.SuggestionIcon>
+                                        <S.SuggestionReactionWrapper>
+                                            <S.SuggestionIcon>
+                                                <FontAwesomeIcon icon={faHeart} className="icon" />
+                                                <span>1</span>
+                                            </S.SuggestionIcon>
+                                        </S.SuggestionReactionWrapper>
+                                        {currentUser && comment.userName === currentUser.userName && (
+                                            <S.SuggestionInteractionWrapper>
+                                                <S.SuggestionIcon className="reduce-margin-right">
+                                                    <FontAwesomeIcon icon={faPenToSquare} className="icon" />
+                                                </S.SuggestionIcon>
+                                                <S.SuggestionIcon>
+                                                    <FontAwesomeIcon
+                                                        icon={faTrashCan}
+                                                        className="icon"
+                                                        onClick={() => onClickDeleteComment(comment.commentId)}
+                                                    />
+                                                </S.SuggestionIcon>
+                                            </S.SuggestionInteractionWrapper>
+                                        )}
                                     </S.SuggestionIconsWrapper>
                                 </S.SuggestionReplyFooter>
-                                <TheoneButton
-                                    variant={"primary"}
-                                    shape={"default"}
-                                    size={"default"}
-                                    border={"default"}
-                                    color={"defalut"}
-                                    onClick={() => onClickDeleteComment(comment.commentId)}
-                                >
-                                    댓글 삭제
-                                </TheoneButton>
                             </S.SuggestionReply>
                         </S.SuggestionReplyContainer>
                     ))}
                 </>
             )}
-            <Input
-                onFocus={handleCommentFocus}
-                onBlur={handleCommentBlur}
-                variant={"default"}
-                size={"title"}
-                border={"title"}
-                value={content}
-                onChange={handleContentChange}
-            />
+            <S.SuggestionReplyContainer>
+                <S.EnterIcon>
+                    <FontAwesomeIcon icon={faTurnUp} className="icon" />
+                </S.EnterIcon>
+                <S.SuggestionReply>
+                    <S.SuggestionReplyInputContainer>
+                        <Textarea
+                            onFocus={handleCommentFocus}
+                            onBlur={handleCommentBlur}
+                            border={"active"}
+                            size={"comment"}
+                            value={content}
+                            onChange={handleContentChange}
+                        />
+                        <S.SuggestionReplyButtonsContainer>
+                            <TheoneButton
+                                variant={"primary"}
+                                shape={"default"}
+                                size={"default"}
+                                border={"default"}
+                                color={"defalut"}
+                                onClick={onClickGenerateComment}
+                            >
+                                등록
+                            </TheoneButton>
+                        </S.SuggestionReplyButtonsContainer>
+                    </S.SuggestionReplyInputContainer>
+                </S.SuggestionReply>
+            </S.SuggestionReplyContainer>
+
             <S.SuggestionButtonsContainer>
                 <TheoneButton
                     variant={"primary"}
@@ -260,26 +329,6 @@ const SuggestionPost = () => {
                     onClick={onClickNavigateSuggestionBoard}
                 >
                     목록
-                </TheoneButton>
-                <TheoneButton
-                    variant={"primary"}
-                    shape={"default"}
-                    size={"default"}
-                    border={"default"}
-                    color={"defalut"}
-                    onClick={onClickGenerateComment}
-                >
-                    댓글 등록
-                </TheoneButton>
-                <TheoneButton
-                    variant={"primary"}
-                    shape={"default"}
-                    size={"default"}
-                    border={"default"}
-                    color={"defalut"}
-                    onClick={onClickDeleteSuggestion}
-                >
-                    글 삭제
                 </TheoneButton>
                 <TheoneButton
                     variant={"primary"}

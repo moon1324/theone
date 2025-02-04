@@ -6,7 +6,17 @@ import Dropdown from "../../components/dropdown/Dropdown";
 import Input from "../../components/input/style";
 import useInput from "../../hooks/useInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import {
+    faAngleLeft,
+    faAngleRight,
+    faAnglesLeft,
+    faAnglesRight,
+    faChevronLeft,
+    faChevronRight,
+    faMagnifyingGlass,
+    faTriangleExclamation,
+} from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 const SuggestionBoard = () => {
     const [suggestions, setSuggestions] = useState([]);
@@ -16,18 +26,43 @@ const SuggestionBoard = () => {
     const [searchValue, setSearchValue, handleSearchChange] = useInput("");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [sortByDate, setSortByDate] = useState("desc");
+    const [sortByHits, setSortByHits] = useState("desc");
+
     const hasEmptyRows = suggestions.length < 10;
 
-    const dropdownOptions = ["전체", "제목", "내용", "제목+내용", "작성자"];
+    const dropdownOptions = ["전체", "제목", "내용", "작성자"];
     const navigate = useNavigate();
+
+    const { isLogin } = useSelector((state) => state.login);
 
     // 한글 -> 영어 매핑 객체
     const searchTypeMapping = {
         전체: "all",
         제목: "title",
         내용: "content",
-        "제목+내용": "all",
         작성자: "userName",
+    };
+
+    const getTimeAgo = (createdAt) => {
+        const now = new Date();
+        const createdTime = new Date(createdAt);
+        const diffInMs = now - createdTime;
+        const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+        const diffInHours = Math.floor(diffInMinutes / 60);
+        const diffInDays = Math.floor(diffInHours / 24);
+        const diffInWeeks = Math.floor(diffInDays / 7);
+        const diffInMonths = Math.floor(diffInWeeks / 4.345); // average weeks per month
+        const diffInYears = Math.floor(diffInMonths / 12);
+
+        if (diffInMinutes < 1) return "방금 전";
+        if (diffInMinutes < 60) return `${diffInMinutes}분 전`;
+        if (diffInHours < 24) return `${diffInHours}시간 전`;
+        if (diffInDays < 2) return `하루 전`;
+        if (diffInDays < 7) return `${diffInDays}일 전`;
+        if (diffInWeeks < 4) return `${diffInWeeks}주 전`;
+        if (diffInMonths < 12) return `${diffInMonths}달 전`;
+        return `${diffInYears}년 전`;
     };
 
     const getSuggestion = async (searchType = "all", searchValue = "", page = 1) => {
@@ -35,7 +70,7 @@ const SuggestionBoard = () => {
         try {
             // 14.5.86.192:8090
             // 192.168.32.99:8090
-            const response = await fetch(`http://14.5.86.192:8090/api/suggestion?page=${page}&searchType=${searchType}&searchValue=${searchValue}`, {
+            const response = await fetch(`http://14.5.86.192:8080/api/suggestion?page=${page}&searchType=${searchType}&searchValue=${searchValue}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -52,7 +87,10 @@ const SuggestionBoard = () => {
             console.log(result.data);
             console.log(result.data.content);
 
-            setSuggestions(result.data.content);
+            // setSuggestions(result.data.content);
+            const sortedSuggestions = result.data.content.sort((a, b) => b.suggestionId - a.suggestionId);
+
+            setSuggestions(sortedSuggestions);
             setTotalPages(result.data.totalPages);
         } catch (error) {
             console.error(error);
@@ -81,7 +119,30 @@ const SuggestionBoard = () => {
     };
 
     const onClickNavigateSuggestionWrite = () => {
-        navigate(`/suggestion/write`);
+        if (!isLogin) {
+            alert("글을 쓰기 원한다면 로그인 해주세요!");
+            navigate("/login");
+        } else {
+            navigate("/suggestion/write");
+        }
+    };
+
+    const handleSortByDate = () => {
+        const direction = sortByDate === "asc" ? "desc" : "asc";
+        setSortByDate(direction);
+        const sortedData = [...suggestions].sort((a, b) => {
+            return direction === "asc" ? new Date(a.createdAt) - new Date(b.createdAt) : new Date(b.createdAt) - new Date(a.createdAt);
+        });
+        setSuggestions(sortedData);
+    };
+
+    const handleSortByHits = () => {
+        const direction = sortByHits === "asc" ? "desc" : "asc";
+        setSortByHits(direction);
+        const sortedData = [...suggestions].sort((a, b) => {
+            return direction === "asc" ? a.hits - b.hits : b.hits - a.hits;
+        });
+        setSuggestions(sortedData);
     };
 
     useEffect(() => {
@@ -130,13 +191,13 @@ const SuggestionBoard = () => {
                             <th>번호</th>
                             <th>제목</th>
                             <th>이름</th>
-                            <th>날짜</th>
-                            <th>조회수</th>
+                            <th onClick={() => handleSortByDate}>작성일시</th>
+                            <th onClick={() => handleSortByHits}>조회수</th>
                         </tr>
                     </thead>
                     <tbody>
                         {loading ? (
-                            <tr>
+                            <tr className="cursor-default">
                                 <td colSpan="5">
                                     <S.SuggestionPostTableTdMessage>
                                         <S.SuggestionDescription>Loading...</S.SuggestionDescription>
@@ -144,22 +205,22 @@ const SuggestionBoard = () => {
                                 </td>
                             </tr>
                         ) : error ? (
-                            <tr>
+                            <tr className="cursor-default">
                                 <td colSpan="5">{error}</td>
                             </tr>
                         ) : suggestions.length > 0 ? (
                             <>
                                 {suggestions.map((suggestion, index) => (
                                     <tr key={suggestion.suggestionId} onClick={() => navigate(`/suggestion/${suggestion.suggestionId}`)}>
-                                        <td>{index + 1 + (currentPage - 1) * 10}</td>
+                                        <td>{suggestion.suggestionId}</td>
                                         <td>{suggestion.title}</td>
                                         <td>{suggestion.userName}</td>
-                                        <td>{suggestion.createdAt}</td>
+                                        <td>{getTimeAgo(suggestion.createdAt)}</td>
                                         <td>{suggestion.hits}</td>
                                     </tr>
                                 ))}
                                 {Array.from({ length: 10 - suggestions.length }).map((_, idx) => (
-                                    <tr className="empty" key={`empty-${idx}`}>
+                                    <tr className="empty cursor-default" key={`empty-${idx}`}>
                                         <td colSpan="5">&nbsp;</td>
                                     </tr>
                                 ))}
@@ -188,11 +249,23 @@ const SuggestionBoard = () => {
                     </tbody>
                 </S.SuggestionPostTable>
                 <S.SuggestionPagination>
-                    {Array.from({ length: totalPages }, (_, i) => (
-                        <div key={i + 1} className={i + 1 === currentPage ? "active" : ""} onClick={() => handlePageClick(i + 1)}>
-                            {i + 1}
-                        </div>
-                    ))}
+                    <S.PaginationArrowsContainer>
+                        {currentPage > 2 && <FontAwesomeIcon icon={faAnglesLeft} onClick={() => handlePageClick(1)} />}
+                        {currentPage > 1 && <FontAwesomeIcon icon={faAngleLeft} onClick={() => handlePageClick(currentPage - 1)} />}
+                    </S.PaginationArrowsContainer>
+                    <S.PaginationNumbersContainer>
+                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => i + 1 + Math.floor((currentPage - 1) / 5) * 5)
+                            .filter((page) => page <= totalPages)
+                            .map((page) => (
+                                <div key={page} className={page === currentPage ? "active" : ""} onClick={() => handlePageClick(page)}>
+                                    {page}
+                                </div>
+                            ))}
+                    </S.PaginationNumbersContainer>
+                    <S.PaginationArrowsContainer>
+                        {currentPage < totalPages && <FontAwesomeIcon icon={faAngleRight} onClick={() => handlePageClick(currentPage + 1)} />}
+                        {currentPage + 1 < totalPages && <FontAwesomeIcon icon={faAnglesRight} onClick={() => handlePageClick(totalPages)} />}
+                    </S.PaginationArrowsContainer>
                 </S.SuggestionPagination>
             </S.SuggestionPostBox>
         </S.SuggestionBoardContainer>

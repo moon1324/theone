@@ -22,6 +22,7 @@ const Layout = () => {
         // Redux 상태와 localStorage 초기화
         dispatch(setUserLogout({}, false));
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("userData");
         alert("로그아웃 되었습니다.");
         navigate("/", { replace: true });
     };
@@ -29,6 +30,16 @@ const Layout = () => {
     const handleSocialMediaRedirect = (url) => {
         window.open(url, "_blank");
     };
+
+    useEffect(() => {
+        const accessToken = localStorage.getItem("accessToken");
+        const userData = localStorage.getItem("userData");
+
+        if (accessToken && userData) {
+            dispatch(setUser(JSON.parse(userData)));
+            dispatch(setUserStatus(true));
+        }
+    }, [dispatch]);
 
     return (
         <S.Wrapper>
