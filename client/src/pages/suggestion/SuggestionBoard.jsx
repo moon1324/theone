@@ -28,10 +28,11 @@ const SuggestionBoard = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [sortByDate, setSortByDate] = useState("desc");
     const [sortByHits, setSortByHits] = useState("desc");
+    const [sortByLike, setSortByLike] = useState("desc");
 
     const hasEmptyRows = suggestions.length < 10;
 
-    const dropdownOptions = ["전체", "제목", "내용", "작성자"];
+    const dropdownOptions = ["전체", "제목", "내용", "댓글", "작성자"];
     const navigate = useNavigate();
 
     const { isLogin } = useSelector((state) => state.login);
@@ -41,6 +42,7 @@ const SuggestionBoard = () => {
         전체: "all",
         제목: "title",
         내용: "content",
+        댓글: "comment",
         작성자: "userName",
     };
 
@@ -65,18 +67,21 @@ const SuggestionBoard = () => {
         return `${diffInYears}년 전`;
     };
 
-    const getSuggestion = async (searchType = "all", searchValue = "", page = 1) => {
+    const getSuggestion = async (searchType = "all", searchValue = "", page = 1, sortBy = "date", sortType = "desc") => {
         setLoading(true);
         try {
             // 14.5.86.192:8090
             // 192.168.32.99:8090
-            const response = await fetch(`http://14.5.86.192:8080/api/suggestion?page=${page}&searchType=${searchType}&searchValue=${searchValue}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-            });
+            const response = await fetch(
+                `http://14.5.86.192:8080/api/suggestion?page=${page}&searchType=${searchType}&searchValue=${searchValue}&sortBy=${sortBy}&sortType=${sortType}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                }
+            );
 
             if (!response.ok) {
                 throw new Error("Failed to fetch suggestions");
@@ -86,11 +91,10 @@ const SuggestionBoard = () => {
             console.log(result);
             console.log(result.data);
             console.log(result.data.content);
+            setSuggestions(result.data.content);
 
-            // setSuggestions(result.data.content);
-            const sortedSuggestions = result.data.content.sort((a, b) => b.suggestionId - a.suggestionId);
-
-            setSuggestions(sortedSuggestions);
+            // const sortedSuggestions = result.data.content.sort((a, b) => b.suggestionId - a.suggestionId);
+            // setSuggestions(sortedSuggestions);
             setTotalPages(result.data.totalPages);
         } catch (error) {
             console.error(error);
@@ -130,19 +134,25 @@ const SuggestionBoard = () => {
     const handleSortByDate = () => {
         const direction = sortByDate === "asc" ? "desc" : "asc";
         setSortByDate(direction);
-        const sortedData = [...suggestions].sort((a, b) => {
-            return direction === "asc" ? new Date(a.createdAt) - new Date(b.createdAt) : new Date(b.createdAt) - new Date(a.createdAt);
-        });
-        setSuggestions(sortedData);
+        setCurrentPage(1);
+        const searchType = searchTypeMapping[dropdownItem];
+        getSuggestion(searchType, searchValue, 1, "date", direction);
     };
 
     const handleSortByHits = () => {
         const direction = sortByHits === "asc" ? "desc" : "asc";
         setSortByHits(direction);
-        const sortedData = [...suggestions].sort((a, b) => {
-            return direction === "asc" ? a.hits - b.hits : b.hits - a.hits;
-        });
-        setSuggestions(sortedData);
+        setCurrentPage(1);
+        const searchType = searchTypeMapping[dropdownItem];
+        getSuggestion(searchType, searchValue, 1, "hits", direction);
+    };
+
+    const handleSortByLike = () => {
+        const direction = sortByLike === "asc" ? "desc" : "asc";
+        setSortByLike(direction);
+        setCurrentPage(1);
+        const searchType = searchTypeMapping[dropdownItem];
+        getSuggestion(searchType, searchValue, 1, "like", direction);
     };
 
     useEffect(() => {
@@ -189,10 +199,11 @@ const SuggestionBoard = () => {
                     <thead>
                         <tr>
                             <th>번호</th>
+                            <th>작성자</th>
                             <th>제목</th>
-                            <th>이름</th>
-                            <th onClick={() => handleSortByDate}>작성일시</th>
-                            <th onClick={() => handleSortByHits}>조회수</th>
+                            <th onClick={handleSortByDate}>작성일시</th>
+                            <th onClick={handleSortByHits}>조회수</th>
+                            <th onClick={handleSortByLike}>공감수</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -213,10 +224,11 @@ const SuggestionBoard = () => {
                                 {suggestions.map((suggestion, index) => (
                                     <tr key={suggestion.suggestionId} onClick={() => navigate(`/suggestion/${suggestion.suggestionId}`)}>
                                         <td>{suggestion.suggestionId}</td>
-                                        <td>{suggestion.title}</td>
                                         <td>{suggestion.userName}</td>
+                                        <td>{suggestion.title}</td>
                                         <td>{getTimeAgo(suggestion.createdAt)}</td>
                                         <td>{suggestion.hits}</td>
+                                        <td>{suggestion.likeCount}</td>
                                     </tr>
                                 ))}
                                 {Array.from({ length: 10 - suggestions.length }).map((_, idx) => (

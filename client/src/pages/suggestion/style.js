@@ -142,8 +142,8 @@ S.SuggestionPostTable = styled.table`
         width: 10%; /* 번호 */
     }
 
-    & th:nth-child(3),
-    & td:nth-child(3) {
+    & th:nth-child(2),
+    & td:nth-child(2) {
         width: 10%; /* 이름 */
     }
 
@@ -157,20 +157,28 @@ S.SuggestionPostTable = styled.table`
         width: 10%; /* 조회수 */
     }
 
+    & th:nth-child(6),
+    & td:nth-child(6) {
+        width: 10%; /* 공감감수 */
+    }
+
     & th:nth-child(4),
-    & th:nth-child(5) {
+    & th:nth-child(5),
+    & th:nth-child(6) {
         cursor: pointer;
     }
 
     /* 제목 칸은 남은 공간을 차지 */
-    & th:nth-child(2) {
-        width: auto;
+    & th:nth-child(3) {
+        width: 50%;
         text-align: center;
     }
 
-    & td:nth-child(2) {
-        width: auto; /* 제목 */
+    & td:nth-child(3) {
+        width: 50%; /* 제목 */
         text-align: left; /* 제목은 왼쪽 정렬 */
+        padding-left: 2rem;
+        text-overflow: ellipsis;
     }
 
     & .empty {
