@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faComment, faTurnUp, faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import S from "./style";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import TheoneButton from "../../components/button/TheoneButton";
 import Textarea from "../../components/textarea/style";
 import useInput from "../../hooks/useInput";
 import { useSelector } from "react-redux";
+import Input from "../../components/input/style";
 
 const SuggestionPost = () => {
     const { suggestionId } = useParams();
@@ -15,10 +16,11 @@ const SuggestionPost = () => {
     const [error, setError] = useState(null);
     const [content, setContent, handleContentChange] = useInput("댓글을 입력하세요");
     const [editingCommentId, setEditingCommentId] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedTitle, setEditedTitle] = useState("");
     const [editedContent, setEditedContent] = useState("");
 
     const navigate = useNavigate();
-    const location = useLocation();
 
     const { currentUser } = useSelector((state) => state.login);
 
@@ -28,6 +30,18 @@ const SuggestionPost = () => {
 
     const onClickNavigateSuggestionWrite = () => {
         navigate("/suggestion/write");
+    };
+
+    const handleTitleFocus = () => {
+        if (editedTitle === "제목을 입력하세요") {
+            setEditedTitle("");
+        }
+    };
+
+    const handleTitleBlur = () => {
+        if (!editedTitle) {
+            setEditedTitle("제목을 입력하세요");
+        }
     };
 
     const handleCommentFocus = () => {
@@ -90,6 +104,7 @@ const SuggestionPost = () => {
             setLoading(false);
         }
     };
+
     useEffect(() => {
         getSuggestionDetails();
     }, [suggestionId]);
@@ -119,6 +134,45 @@ const SuggestionPost = () => {
         } catch (err) {
             setError("댓글 등록 중 오류가 발생했습니다: " + err.message);
         } finally {
+        }
+    };
+
+    const onClickEditSuggestion = () => {
+        setIsEditing(true);
+        setEditedTitle(suggestion.title);
+        setEditedContent(suggestion.content);
+    };
+
+    const onCancelEdit = () => {
+        setIsEditing(false);
+        setEditedContent("");
+    };
+
+    const onConfirmEdit = async () => {
+        try {
+            const accessToken = localStorage.getItem("accessToken");
+            const response = await fetch(`http://14.5.86.192:8080/api/suggestion/${suggestionId}`, {
+                method: "PATCH",
+                headers: {
+                    Authorization: accessToken,
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                    title: editedTitle,
+                    content: editedContent,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error("게시글 수정에 실패했습니다.");
+            }
+
+            alert("게시글이 성공적으로 수정되었습니다!");
+            getSuggestionDetails();
+            setIsEditing(false);
+        } catch (err) {
+            setError("게시글 수정 중 오류가 발생했습니다: " + err.message);
         }
     };
 
@@ -230,7 +284,19 @@ const SuggestionPost = () => {
                 <S.SuggestionPostHeader>
                     <S.SuggestionPostTitle>
                         <span>제목</span>
-                        <p>{suggestion.title}</p>
+                        {isEditing ? (
+                            <Input
+                                onFocus={handleTitleFocus}
+                                onBlur={handleTitleBlur}
+                                variant={"default"}
+                                size={"title"}
+                                border={"title"}
+                                value={editedTitle}
+                                onChange={(e) => setEditedTitle(e.target.value)}
+                            />
+                        ) : (
+                            <p>{suggestion.title}</p>
+                        )}
                     </S.SuggestionPostTitle>
                     <S.SuggestionPostInfoWrapper>
                         <S.SuggestionPostWriter>
@@ -245,9 +311,30 @@ const SuggestionPost = () => {
                 </S.SuggestionPostHeader>
                 <S.SuggestionPostBody>
                     <S.SuggestionPostContent>
-                        <Textarea border={"default"} size={"post"} readOnly={"true"}>
-                            {suggestion.content}
-                        </Textarea>
+                        {isEditing ? (
+                            <>
+                                <Textarea border={"active"} size={"post"} value={editedContent} onChange={(e) => setEditedContent(e.target.value)} />
+                                <S.SuggestionReplyButtonsContainer>
+                                    <TheoneButton variant={"gray"} shape={"default"} size={"default"} border={"default"} color={"black"} onClick={onCancelEdit}>
+                                        취소
+                                    </TheoneButton>
+                                    <TheoneButton
+                                        variant={"primary"}
+                                        shape={"default"}
+                                        size={"default"}
+                                        border={"default"}
+                                        color={"defalut"}
+                                        onClick={onConfirmEdit}
+                                    >
+                                        확인
+                                    </TheoneButton>
+                                </S.SuggestionReplyButtonsContainer>
+                            </>
+                        ) : (
+                            <Textarea border={"default"} size={"post"} readOnly={true}>
+                                {suggestion.content}
+                            </Textarea>
+                        )}
                     </S.SuggestionPostContent>
                 </S.SuggestionPostBody>
                 <S.SuggestionPostFooter>
@@ -266,7 +353,7 @@ const SuggestionPost = () => {
                             <S.SuggestionInteractionWrapper>
                                 <S.SuggestionInteractionButton>
                                     <S.SuggestionIcon className="reduce-margin-right">
-                                        <FontAwesomeIcon icon={faPenToSquare} className="icon" />
+                                        <FontAwesomeIcon icon={faPenToSquare} className="icon" onClick={onClickEditSuggestion} />
                                     </S.SuggestionIcon>
                                 </S.SuggestionInteractionButton>
                                 <S.SuggestionInteractionButton>
