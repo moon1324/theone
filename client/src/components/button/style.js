@@ -7,6 +7,7 @@ const variantCSS = {
     `,
     gray: css`
         background-color: ${({ theme }) => theme.PALETTE.gray[200]};
+        margin-right: 0.5rem;
     `,
     disabled: css`
         background-color: ${({ theme }) => theme.PALETTE.gray[100]};

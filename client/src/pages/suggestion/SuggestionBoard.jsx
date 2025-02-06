@@ -6,16 +6,7 @@ import Dropdown from "../../components/dropdown/Dropdown";
 import Input from "../../components/input/style";
 import useInput from "../../hooks/useInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faAngleLeft,
-    faAngleRight,
-    faAnglesLeft,
-    faAnglesRight,
-    faChevronLeft,
-    faChevronRight,
-    faMagnifyingGlass,
-    faTriangleExclamation,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight, faMagnifyingGlass, faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 
 const SuggestionBoard = () => {
@@ -32,7 +23,14 @@ const SuggestionBoard = () => {
 
     const hasEmptyRows = suggestions.length < 10;
 
-    const dropdownOptions = ["전체", "제목", "내용", "댓글", "작성자"];
+    const dropdownOptions = [
+        "전체",
+        "제목",
+        "내용",
+        // "댓글",
+        "작성자",
+    ];
+
     const navigate = useNavigate();
 
     const { isLogin } = useSelector((state) => state.login);
@@ -42,7 +40,7 @@ const SuggestionBoard = () => {
         전체: "all",
         제목: "title",
         내용: "content",
-        댓글: "comment",
+        // 댓글: "comment",
         작성자: "userName",
     };
 

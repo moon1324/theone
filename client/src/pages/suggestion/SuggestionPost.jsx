@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faComment, faTurnUp, faTrashCan, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import S from "./style";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TheoneButton from "../../components/button/TheoneButton";
 import Textarea from "../../components/textarea/style";
 import useInput from "../../hooks/useInput";
@@ -14,8 +14,11 @@ const SuggestionPost = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [content, setContent, handleContentChange] = useInput("댓글을 입력하세요");
+    const [editingCommentId, setEditingCommentId] = useState(null);
+    const [editedContent, setEditedContent] = useState("");
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const { currentUser } = useSelector((state) => state.login);
 
@@ -112,8 +115,7 @@ const SuggestionPost = () => {
             }
 
             alert("댓글이 성공적으로 등록되었습니다!");
-            // eslint-disable-next-line no-restricted-globals
-            location.reload();
+            getSuggestionDetails();
         } catch (err) {
             setError("댓글 등록 중 오류가 발생했습니다: " + err.message);
         } finally {
@@ -163,11 +165,45 @@ const SuggestionPost = () => {
             }
 
             alert("댓글이 성공적으로 삭제되었습니다!");
-            // eslint-disable-next-line no-restricted-globals
-            location.reload();
+            getSuggestionDetails();
         } catch (err) {
             setError("댓글 삭제 중 오류가 발생했습니다: " + err.message);
         } finally {
+        }
+    };
+
+    const onClickEditComment = (commentId, currentContent) => {
+        setEditingCommentId(commentId);
+        setEditedContent(currentContent); // Initialize with the current content of the comment
+    };
+
+    const onCancelEditComment = () => {
+        setEditingCommentId(null);
+        setEditedContent("");
+    };
+
+    const onConfirmEditComment = async (commentId) => {
+        try {
+            // Update comment API call
+            const accessToken = localStorage.getItem("accessToken");
+            const response = await fetch(`http://14.5.86.192:8080/api/comment/${commentId}`, {
+                method: "PATCH",
+                headers: {
+                    Authorization: accessToken,
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({ content: editedContent }),
+            });
+
+            if (!response.ok) throw new Error("댓글 수정에 실패했습니다.");
+
+            alert("댓글이 성공적으로 수정되었습니다!");
+            getSuggestionDetails();
+        } catch (err) {
+            setError("댓글 수정 중 오류가 발생했습니다: " + err.message);
+        } finally {
+            setEditingCommentId(null);
         }
     };
 
@@ -246,45 +282,87 @@ const SuggestionPost = () => {
             {suggestion.commentList && suggestion.commentList.length > 0 && (
                 <>
                     {suggestion.commentList.map((comment) => (
-                        <S.SuggestionReplyContainer>
+                        <S.SuggestionReplyContainer key={comment.commentId}>
                             <S.EnterIcon>
                                 <FontAwesomeIcon icon={faTurnUp} className="icon" />
                             </S.EnterIcon>
-                            <S.SuggestionReply key={comment.commentId}>
-                                <S.SuggestionReplyHeader>
-                                    <S.SuggestionReplyWriter>{comment.userName}</S.SuggestionReplyWriter>
-                                    <S.SuggestionReplyDate>{getTimeAgo(comment.createdAt)}</S.SuggestionReplyDate>
-                                </S.SuggestionReplyHeader>
-                                <S.SuggestionReplyBody>
-                                    <S.SuggestionReplyContent>
-                                        <p>{comment.content}</p>
-                                    </S.SuggestionReplyContent>
-                                </S.SuggestionReplyBody>
-                                <S.SuggestionReplyFooter>
-                                    <S.SuggestionIconsWrapper>
-                                        <S.SuggestionReactionWrapper>
-                                            <S.SuggestionIcon>
-                                                <FontAwesomeIcon icon={faHeart} className="icon" />
-                                                <span>1</span>
-                                            </S.SuggestionIcon>
-                                        </S.SuggestionReactionWrapper>
-                                        {currentUser && comment.userName === currentUser.userName && (
-                                            <S.SuggestionInteractionWrapper>
-                                                <S.SuggestionIcon className="reduce-margin-right">
-                                                    <FontAwesomeIcon icon={faPenToSquare} className="icon" />
-                                                </S.SuggestionIcon>
+                            {editingCommentId === comment.commentId ? (
+                                <S.SuggestionReply>
+                                    <S.SuggestionReplyInputContainer>
+                                        <Textarea
+                                            onFocus={handleCommentFocus}
+                                            onBlur={handleCommentBlur}
+                                            border={"active"}
+                                            size={"comment"}
+                                            value={editedContent}
+                                            onChange={(e) => setEditedContent(e.target.value)}
+                                        />
+                                        <S.SuggestionReplyButtonsContainer>
+                                            <TheoneButton
+                                                variant={"gray"}
+                                                shape={"default"}
+                                                size={"default"}
+                                                border={"default"}
+                                                color={"black"}
+                                                onClick={onCancelEditComment}
+                                            >
+                                                취소
+                                            </TheoneButton>
+                                            <TheoneButton
+                                                variant={"primary"}
+                                                shape={"default"}
+                                                size={"default"}
+                                                border={"default"}
+                                                color={"defalut"}
+                                                onClick={() => onConfirmEditComment(comment.commentId)}
+                                            >
+                                                확인
+                                            </TheoneButton>
+                                        </S.SuggestionReplyButtonsContainer>
+                                    </S.SuggestionReplyInputContainer>
+                                </S.SuggestionReply>
+                            ) : (
+                                // Display Mode
+                                <S.SuggestionReply>
+                                    <S.SuggestionReplyHeader>
+                                        <S.SuggestionReplyWriter>{comment.userName}</S.SuggestionReplyWriter>
+                                        <S.SuggestionReplyDate>{getTimeAgo(comment.createdAt)}</S.SuggestionReplyDate>
+                                    </S.SuggestionReplyHeader>
+                                    <S.SuggestionReplyBody>
+                                        <S.SuggestionReplyContent>
+                                            <p>{comment.content}</p>
+                                        </S.SuggestionReplyContent>
+                                    </S.SuggestionReplyBody>
+                                    <S.SuggestionReplyFooter>
+                                        <S.SuggestionIconsWrapper>
+                                            <S.SuggestionReactionWrapper>
                                                 <S.SuggestionIcon>
-                                                    <FontAwesomeIcon
-                                                        icon={faTrashCan}
-                                                        className="icon"
-                                                        onClick={() => onClickDeleteComment(comment.commentId)}
-                                                    />
+                                                    <FontAwesomeIcon icon={faHeart} className="icon" />
+                                                    <span>1</span>
                                                 </S.SuggestionIcon>
-                                            </S.SuggestionInteractionWrapper>
-                                        )}
-                                    </S.SuggestionIconsWrapper>
-                                </S.SuggestionReplyFooter>
-                            </S.SuggestionReply>
+                                            </S.SuggestionReactionWrapper>
+                                            {currentUser && comment.userName === currentUser.userName && (
+                                                <S.SuggestionInteractionWrapper>
+                                                    <S.SuggestionIcon className="reduce-margin-right">
+                                                        <FontAwesomeIcon
+                                                            icon={faPenToSquare}
+                                                            className="icon"
+                                                            onClick={() => onClickEditComment(comment.commentId, comment.content)}
+                                                        />
+                                                    </S.SuggestionIcon>
+                                                    <S.SuggestionIcon>
+                                                        <FontAwesomeIcon
+                                                            icon={faTrashCan}
+                                                            className="icon"
+                                                            onClick={() => onClickDeleteComment(comment.commentId)}
+                                                        />
+                                                    </S.SuggestionIcon>
+                                                </S.SuggestionInteractionWrapper>
+                                            )}
+                                        </S.SuggestionIconsWrapper>
+                                    </S.SuggestionReplyFooter>
+                                </S.SuggestionReply>
+                            )}
                         </S.SuggestionReplyContainer>
                     ))}
                 </>
@@ -318,7 +396,6 @@ const SuggestionPost = () => {
                     </S.SuggestionReplyInputContainer>
                 </S.SuggestionReply>
             </S.SuggestionReplyContainer>
-
             <S.SuggestionButtonsContainer>
                 <TheoneButton
                     variant={"primary"}
