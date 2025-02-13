@@ -18,6 +18,7 @@ const KakaoRedirect = () => {
                 // 14.5.86.192:8090
                 // 192.168.32.99:8090
                 const response = await fetch(`http://14.5.86.192:8090/api/user/login/oauth2/code/kakao?code=${code}`, {
+                    // const response = await fetch(`https://theone.onl/api/user/login/oauth2/code/kakao?code=${code}`, {
                     method: "GET",
                     // express
                     // await fetch(`http://localhost:8000/user/login?code=${code}`, {

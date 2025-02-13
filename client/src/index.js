@@ -18,6 +18,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <>
         <Provider store={store}>
+            <meta name="naver-site-verification" content="81adcc38375fbdf0d7f40db4c9ce9d6674e9b41e" />
             <App />
         </Provider>
     </>

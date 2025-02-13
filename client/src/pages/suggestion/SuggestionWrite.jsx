@@ -46,7 +46,7 @@ const SuggestionWrite = () => {
             // 192.168.32.99:8090
             const accessToken = localStorage.getItem("accessToken");
             console.log(accessToken);
-            const response = await fetch("http://14.5.86.192:8080/api/suggestion", {
+            const response = await fetch("http://14.5.86.192:8090/api/suggestion", {
                 method: "POST",
                 headers: {
                     Authorization: accessToken,

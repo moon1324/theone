@@ -6,7 +6,7 @@ const Login = () => {
     const REACT_APP_KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
     // const KAKAO_REDIRECT_URI = `http://localhost:3000/oauth/kakao`;
     const KAKAO_REDIRECT_URI = `http://localhost:3001/oauth/kakao`;
-    // const KAKAO_REDIRECT_URI = `http://theone.onl/oauth/kakao`;
+    // const KAKAO_REDIRECT_URI = `https://theone.onl/oauth/kakao`;
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 
     // useEffect(() => {

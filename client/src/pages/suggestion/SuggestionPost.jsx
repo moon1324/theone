@@ -19,8 +19,9 @@ const SuggestionPost = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState("");
     const [editedContent, setEditedContent] = useState("");
-    const [isLiked, setIsLiked] = useState(false);
-    const [likeCount, setLikeCount] = useState(0);
+    const [postLiked, setPostLiked] = useState(false);
+    const [postLikeCount, setPostLikeCount] = useState(0);
+    const [commentLikes, setCommentLikes] = useState({});
 
     const navigate = useNavigate();
 
@@ -47,14 +48,14 @@ const SuggestionPost = () => {
     };
 
     const handleCommentFocus = () => {
-        if (content === "제목을 입력하세요") {
+        if (content === "댓글을 입력하세요") {
             setContent("");
         }
     };
 
     const handleCommentBlur = () => {
         if (!content) {
-            setContent("제목을 입력하세요");
+            setContent("댓글을 입력하세요");
         }
     };
 
@@ -81,9 +82,11 @@ const SuggestionPost = () => {
 
     const getSuggestionDetails = async () => {
         try {
-            const response = await fetch(`http://14.5.86.192:8090/api/suggestion/${suggestionId}`, {
+            const accessToken = localStorage.getItem("accessToken");
+            const response = await fetch(`http://14.5.86.192:8090/api/suggestion/login/${suggestionId}`, {
                 method: "GET",
                 headers: {
+                    Authorization: accessToken,
                     "Content-Type": "application/json",
                 },
                 credentials: "include",
@@ -95,8 +98,9 @@ const SuggestionPost = () => {
 
             const result = await response.json();
             setSuggestion(result.data);
-            setIsLiked(result.data.isLiked); // 서버에서 좋아요 상태 가져오기
-            setLikeCount(result.data.likeCount); // 서버에서 좋아요 개수 가져오기
+            console.log(result.data);
+            setPostLiked(result.data.liked); // 서버에서 좋아요 상태 가져오기
+            setPostLikeCount(result.data.likeCount); // 서버에서 좋아요 개수 가져오기
             setLoading(false);
         } catch (error) {
             console.error(error);
@@ -238,7 +242,6 @@ const SuggestionPost = () => {
 
     const onConfirmEditComment = async (commentId) => {
         try {
-            // Update comment API call
             const accessToken = localStorage.getItem("accessToken");
             const response = await fetch(`http://14.5.86.192:8090/api/comment/${commentId}`, {
                 method: "PATCH",
@@ -261,11 +264,11 @@ const SuggestionPost = () => {
         }
     };
 
-    const onClickToggleLike = async () => {
+    const onClickTogglePostLike = async () => {
         try {
             const accessToken = localStorage.getItem("accessToken");
             const response = await fetch(`http://14.5.86.192:8090/api/like/suggestion/${suggestionId}`, {
-                method: isLiked ? "DELETE" : "GET",
+                method: postLiked ? "DELETE" : "GET",
                 headers: {
                     Authorization: accessToken,
                     "Content-Type": "application/json",
@@ -276,12 +279,58 @@ const SuggestionPost = () => {
             if (!response.ok) throw new Error("Failed to toggle like");
 
             // 좋아요 상태 및 개수 업데이트
-            setIsLiked((prev) => !prev);
-            setLikeCount((prevCount) => (isLiked ? prevCount - 1 : prevCount + 1));
+            setPostLiked((prev) => !prev);
+            setPostLikeCount((prevCount) => (postLiked ? prevCount - 1 : prevCount + 1));
         } catch (error) {
             console.error("Error toggling like:", error);
         }
     };
+
+    const onClickToggleCommentLike = async (commentId) => {
+        try {
+            const accessToken = localStorage.getItem("accessToken");
+            const response = await fetch(`http://14.5.86.192:8090/api/like/comment/${commentId}`, {
+                method: commentLikes[commentId]?.liked ? "DELETE" : "GET",
+                headers: {
+                    Authorization: accessToken,
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            });
+
+            if (!response.ok) throw new Error("Failed to toggle like");
+
+            // 좋아요 상태 및 개수 업데이트
+            setCommentLikes((prev) => {
+                const isLiked = prev[commentId]?.liked; // 현재 좋아요 상태
+                const currentCount = prev[commentId]?.likeCount || 0; // 현재 좋아요 개수
+
+                return {
+                    ...prev,
+                    [commentId]: {
+                        liked: !isLiked, // 좋아요 상태 반전
+                        likeCount: isLiked ? currentCount - 1 : currentCount + 1, // 좋아요 개수 증가/감소
+                    },
+                };
+            });
+            console.log(commentLikes);
+        } catch (error) {
+            console.error("Error toggling like:", error);
+        }
+    };
+
+    useEffect(() => {
+        if (suggestion?.commentList) {
+            const initialCommentLikes = suggestion.commentList.reduce((acc, comment) => {
+                acc[comment.commentId] = {
+                    liked: comment.liked,
+                    likeCount: comment.likeCount,
+                };
+                return acc;
+            }, {});
+            setCommentLikes(initialCommentLikes);
+        }
+    }, [suggestion]);
 
     if (loading)
         return (
@@ -363,8 +412,8 @@ const SuggestionPost = () => {
                     <S.SuggestionIconsWrapper>
                         <S.SuggestionReactionWrapper>
                             <S.SuggestionIcon>
-                                <FontAwesomeIcon icon={faHeart} className={`icon ${isLiked ? "liked" : ""}`} onClick={onClickToggleLike} />
-                                <span>{likeCount}</span>
+                                <FontAwesomeIcon icon={faHeart} className={`icon ${postLiked ? "liked" : ""}`} onClick={onClickTogglePostLike} />
+                                <span>{postLikeCount}</span>
                             </S.SuggestionIcon>
                             <S.SuggestionIcon>
                                 <FontAwesomeIcon icon={faComment} className="icon" />
@@ -446,8 +495,12 @@ const SuggestionPost = () => {
                                         <S.SuggestionIconsWrapper>
                                             <S.SuggestionReactionWrapper>
                                                 <S.SuggestionIcon>
-                                                    <FontAwesomeIcon icon={faHeart} className="icon" />
-                                                    <span>1</span>
+                                                    <FontAwesomeIcon
+                                                        icon={faHeart}
+                                                        className={`icon ${commentLikes[comment.commentId]?.liked ? "liked" : ""}`}
+                                                        onClick={() => onClickToggleCommentLike(comment.commentId)}
+                                                    />
+                                                    <span>{commentLikes[comment.commentId]?.likeCount || comment.likeCount}</span>
                                                 </S.SuggestionIcon>
                                             </S.SuggestionReactionWrapper>
                                             {currentUser && comment.userName === currentUser.userName && (
