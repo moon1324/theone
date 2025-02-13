@@ -320,6 +320,24 @@ S.SuggestionIcon = styled.div`
 
     & svg.icon {
         cursor: pointer;
+
+        &.fa-heart {
+            fill: none;
+            stroke: ${theme.PALETTE.text.black};
+            stroke-width: 30;
+
+            path {
+                fill: ${(props) => (props.isLiked ? theme.PALETTE.red : theme.PALETTE.background)};
+            }
+
+            &.liked {
+                stroke: ${theme.PALETTE.red};
+
+                path {
+                    fill: ${theme.PALETTE.red};
+                }
+            }
+        }
     }
 
     &.reduce-margin-right {

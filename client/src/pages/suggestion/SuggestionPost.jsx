@@ -19,6 +19,8 @@ const SuggestionPost = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState("");
     const [editedContent, setEditedContent] = useState("");
+    const [isLiked, setIsLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(0);
 
     const navigate = useNavigate();
 
@@ -79,24 +81,22 @@ const SuggestionPost = () => {
 
     const getSuggestionDetails = async () => {
         try {
-            // 14.5.86.192:8090
-            // 192.168.32.99:8090
-            const response = await fetch(`http://14.5.86.192:8080/api/suggestion/${suggestionId}`, {
+            const response = await fetch(`http://14.5.86.192:8090/api/suggestion/${suggestionId}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 credentials: "include",
             });
+
             if (!response.ok) {
                 throw new Error("Failed to fetch suggestion details");
             }
+
             const result = await response.json();
-
-            // console.log("result : " + JSON.stringify(result));
-            console.log(result);
-
             setSuggestion(result.data);
+            setIsLiked(result.data.isLiked); // 서버에서 좋아요 상태 가져오기
+            setLikeCount(result.data.likeCount); // 서버에서 좋아요 개수 가져오기
             setLoading(false);
         } catch (error) {
             console.error(error);
@@ -113,7 +113,7 @@ const SuggestionPost = () => {
         try {
             const accessToken = localStorage.getItem("accessToken");
             console.log(accessToken);
-            const response = await fetch(`http://14.5.86.192:8080/api/comment/${suggestionId}`, {
+            const response = await fetch(`http://14.5.86.192:8090/api/comment/${suggestionId}`, {
                 method: "POST",
                 headers: {
                     Authorization: accessToken,
@@ -151,7 +151,7 @@ const SuggestionPost = () => {
     const onConfirmEdit = async () => {
         try {
             const accessToken = localStorage.getItem("accessToken");
-            const response = await fetch(`http://14.5.86.192:8080/api/suggestion/${suggestionId}`, {
+            const response = await fetch(`http://14.5.86.192:8090/api/suggestion/${suggestionId}`, {
                 method: "PATCH",
                 headers: {
                     Authorization: accessToken,
@@ -180,7 +180,7 @@ const SuggestionPost = () => {
         try {
             const accessToken = localStorage.getItem("accessToken");
             console.log(accessToken);
-            const response = await fetch(`http://14.5.86.192:8080/api/suggestion/${suggestionId}`, {
+            const response = await fetch(`http://14.5.86.192:8090/api/suggestion/${suggestionId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: accessToken,
@@ -205,7 +205,7 @@ const SuggestionPost = () => {
         try {
             const accessToken = localStorage.getItem("accessToken");
             console.log(accessToken);
-            const response = await fetch(`http://14.5.86.192:8080/api/comment/${commentId}`, {
+            const response = await fetch(`http://14.5.86.192:8090/api/comment/${commentId}`, {
                 method: "DELETE",
                 headers: {
                     Authorization: accessToken,
@@ -240,7 +240,7 @@ const SuggestionPost = () => {
         try {
             // Update comment API call
             const accessToken = localStorage.getItem("accessToken");
-            const response = await fetch(`http://14.5.86.192:8080/api/comment/${commentId}`, {
+            const response = await fetch(`http://14.5.86.192:8090/api/comment/${commentId}`, {
                 method: "PATCH",
                 headers: {
                     Authorization: accessToken,
@@ -258,6 +258,28 @@ const SuggestionPost = () => {
             setError("댓글 수정 중 오류가 발생했습니다: " + err.message);
         } finally {
             setEditingCommentId(null);
+        }
+    };
+
+    const onClickToggleLike = async () => {
+        try {
+            const accessToken = localStorage.getItem("accessToken");
+            const response = await fetch(`http://14.5.86.192:8090/api/like/suggestion/${suggestionId}`, {
+                method: isLiked ? "DELETE" : "GET",
+                headers: {
+                    Authorization: accessToken,
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            });
+
+            if (!response.ok) throw new Error("Failed to toggle like");
+
+            // 좋아요 상태 및 개수 업데이트
+            setIsLiked((prev) => !prev);
+            setLikeCount((prevCount) => (isLiked ? prevCount - 1 : prevCount + 1));
+        } catch (error) {
+            console.error("Error toggling like:", error);
         }
     };
 
@@ -341,8 +363,8 @@ const SuggestionPost = () => {
                     <S.SuggestionIconsWrapper>
                         <S.SuggestionReactionWrapper>
                             <S.SuggestionIcon>
-                                <FontAwesomeIcon icon={faHeart} className="icon" />
-                                <span>{suggestion.likeCount}</span>
+                                <FontAwesomeIcon icon={faHeart} className={`icon ${isLiked ? "liked" : ""}`} onClick={onClickToggleLike} />
+                                <span>{likeCount}</span>
                             </S.SuggestionIcon>
                             <S.SuggestionIcon>
                                 <FontAwesomeIcon icon={faComment} className="icon" />

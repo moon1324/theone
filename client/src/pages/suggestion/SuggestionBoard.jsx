@@ -71,7 +71,7 @@ const SuggestionBoard = () => {
             // 14.5.86.192:8090
             // 192.168.32.99:8090
             const response = await fetch(
-                `http://14.5.86.192:8080/api/suggestion?page=${page}&searchType=${searchType}&searchValue=${searchValue}&sortBy=${sortBy}&sortType=${sortType}`,
+                `http://14.5.86.192:8090/api/suggestion?page=${page}&searchType=${searchType}&searchValue=${searchValue}&sortBy=${sortBy}&sortType=${sortType}`,
                 {
                     method: "GET",
                     headers: {
